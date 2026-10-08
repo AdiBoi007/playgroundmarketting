@@ -1,0 +1,14 @@
+.desktopLabel {
+  display: inline;
+}
+.mobileLabel {
+  display: none;
+}
+@media (max-width: 767px) {
+  .desktopLabel {
+    display: none;
+  }
+  .mobileLabel {
+    display: inline;
+  }
+}

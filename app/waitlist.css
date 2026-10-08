@@ -1,0 +1,339 @@
+.waitlist-page {
+  padding: 78px 0 88px;
+  background: var(--ivory);
+}
+.waitlist-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.95fr);
+  align-items: start;
+  gap: clamp(40px, 7vw, 105px);
+}
+.waitlist-copy {
+  padding-top: 11px;
+  min-width: 0;
+}
+.waitlist-copy .eyebrow {
+  font-size: 0.6875rem;
+  line-height: 1.8;
+}
+.waitlist-copy h1 {
+  font-size: clamp(3rem, 5.8vw, 5.7rem);
+  line-height: 1.04;
+  overflow-wrap: anywhere;
+}
+.waitlist-copy h1 > span {
+  color: var(--blue-dark);
+}
+.waitlist-copy > p {
+  font-size: 1rem;
+  line-height: 1.8;
+  margin-top: 25px;
+  max-width: 445px;
+  color: var(--muted);
+}
+.waitlist-copy > .waitlist-explainer {
+  font-size: 0.875rem;
+  line-height: 1.8;
+  margin-top: 13px;
+  color: var(--ink);
+}
+.waitlist-art {
+  position: relative;
+  margin-top: 31px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: #75cceb;
+}
+.waitlist-art img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 8.5;
+  object-fit: cover;
+  object-position: center 65%;
+}
+.waitlist-art-note {
+  position: absolute;
+  bottom: 16px;
+  left: 15px;
+  right: 15px;
+  width: fit-content;
+  max-width: calc(100% - 30px);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  background: #fbf7ebf0;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.625rem;
+  line-height: 1.6;
+}
+.waitlist-art-note .brand-mark {
+  width: 16px;
+  height: 16px;
+}
+.waitlist-preview-link {
+  margin-top: 24px;
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+.waitlist-form,
+.waitlist-success {
+  border: 1px solid var(--ink);
+  border-radius: 7px;
+  background: #fffdf6;
+  box-shadow: 6px 8px 0 #123b3f12;
+  min-width: 0;
+}
+.waitlist-form-top {
+  padding: 18px 27px;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  background: #e9eddd;
+  border-bottom: 1px solid var(--line);
+  border-radius: 6px 6px 0 0;
+  line-height: 1.8;
+}
+.waitlist-form-top .brand-mark {
+  width: 19px;
+  height: 19px;
+}
+.waitlist-form-top .mono {
+  font-size: 0.6875rem;
+  overflow-wrap: anywhere;
+}
+.waitlist-form-body {
+  padding: 30px 27px 26px;
+}
+.waitlist-form-body h2 {
+  font-size: 1.7rem;
+  letter-spacing: -0.045em;
+  line-height: 1.25;
+}
+.waitlist-form-intro {
+  font-size: 0.875rem;
+  line-height: 1.8;
+  color: var(--muted);
+  margin-top: 10px;
+  margin-bottom: 27px;
+}
+.waitlist-form fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+.waitlist-field {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.6;
+  margin-bottom: 21px;
+}
+.waitlist-field input {
+  width: 100%;
+  min-width: 0;
+  padding: 12px 13px;
+  border: 1px solid #a2af9e;
+  border-radius: 4px;
+  background: white;
+  color: var(--ink);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.6;
+}
+.waitlist-field input::placeholder {
+  color: #67796f;
+  opacity: 1;
+}
+.waitlist-hint {
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--muted);
+}
+.waitlist-consent {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  align-items: start;
+  gap: 11px;
+  min-height: 44px;
+  font-size: 0.8125rem;
+  line-height: 1.7;
+  cursor: pointer;
+  padding: 5px 0;
+}
+.waitlist-consent input {
+  width: 20px;
+  height: 20px;
+  margin: 2px 0 0;
+  accent-color: var(--blue-dark);
+}
+.waitlist-privacy {
+  margin: 7px 0 20px 35px;
+  font-size: 0.75rem;
+  line-height: 1.8;
+  color: var(--muted);
+}
+.waitlist-privacy a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.waitlist-submit {
+  width: 100%;
+  justify-content: space-between;
+  gap: 18px;
+  min-height: 54px;
+  line-height: 1.4;
+  text-align: left;
+}
+.waitlist-submit:disabled {
+  opacity: 0.75;
+  transform: none;
+  box-shadow: none;
+}
+.waitlist-footer-note {
+  margin-top: 17px;
+  font-size: 0.75rem;
+  line-height: 1.8;
+  color: var(--muted);
+  text-align: center;
+}
+.waitlist-unavailable,
+.waitlist-error:not(:empty) {
+  padding: 12px 14px;
+  border: 1px solid #d2b98e;
+  border-radius: 4px;
+  background: #fff3d9;
+  color: #624c2e;
+  font-size: 0.8125rem;
+  line-height: 1.8;
+  margin-bottom: 24px;
+}
+.waitlist-error:not(:empty) {
+  border-color: #ddbda4;
+  color: #913a20;
+  background: #fff1e6;
+  margin: 0 0 18px;
+}
+.waitlist-honeypot,
+.waitlist-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.waitlist-success {
+  background: #e8efdf;
+  padding: 40px 32px;
+}
+.waitlist-success-mark {
+  width: 55px;
+  height: 55px;
+  display: grid;
+  place-items: center;
+  font-size: 1.7rem;
+  border: 1px solid var(--ink);
+  border-radius: 50%;
+  background: var(--lime);
+  margin-bottom: 26px;
+}
+.waitlist-success > .mono {
+  font-size: 0.6875rem;
+  color: var(--muted);
+}
+.waitlist-success h2 {
+  font-size: 2.7rem;
+  line-height: 1.12;
+  margin-top: 20px;
+  overflow-wrap: anywhere;
+}
+.waitlist-success p {
+  font-size: 0.9375rem;
+  line-height: 1.8;
+  color: var(--muted);
+  margin-top: 22px;
+}
+.waitlist-success .button {
+  margin-top: 29px;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  gap: 20px;
+  text-align: left;
+}
+@media (max-width: 1100px) {
+  .waitlist-layout {
+    gap: 35px;
+  }
+}
+@media (max-width: 767px) {
+  .waitlist-page {
+    padding: 45px 0 60px;
+  }
+  .waitlist-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 34px;
+  }
+  .waitlist-copy {
+    padding-top: 0;
+  }
+  .waitlist-copy .eyebrow {
+    font-size: 0.625rem;
+    margin-bottom: 20px;
+  }
+  .waitlist-copy h1 {
+    font-size: 3.25rem;
+  }
+  .waitlist-copy > p {
+    font-size: 0.9375rem;
+    margin-top: 21px;
+  }
+  .waitlist-copy > .waitlist-explainer {
+    font-size: 0.8125rem;
+    margin-top: 11px;
+  }
+  .waitlist-art {
+    margin-top: 25px;
+  }
+  .waitlist-art-note {
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+    max-width: calc(100% - 24px);
+    font-size: 0.625rem;
+  }
+  .waitlist-preview-link {
+    font-size: 0.8125rem;
+    margin-top: 20px;
+  }
+  .waitlist-form-top {
+    padding: 16px 20px;
+  }
+  .waitlist-form-body {
+    padding: 25px 20px 23px;
+  }
+  .waitlist-form-body h2 {
+    font-size: 1.55rem;
+  }
+  .waitlist-success {
+    padding: 32px 23px;
+  }
+  .waitlist-success h2 {
+    font-size: 2.4rem;
+  }
+  .waitlist-success .button {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    font-size: 0.8125rem;
+    padding-inline: 19px;
+  }
+}

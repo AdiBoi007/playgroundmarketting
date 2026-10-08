@@ -1,0 +1,33 @@
+{
+  "name": "playground-marketing",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --hostname 0.0.0.0",
+    "build": "next build",
+    "start": "next start --hostname 0.0.0.0",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "playwright test",
+    "gmail:connect": "node scripts/connect-gmail.mjs"
+  },
+  "dependencies": {
+    "next": "16.3.8",
+    "nodemailer": "^10.0.15",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.10.2",
+    "@playwright/test": "1.63.0",
+    "@types/node": "^22.15.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "eslint": "^9.25.0",
+    "eslint-config-next": "16.3.8",
+    "typescript": "^5.8.3"
+  },
+  "engines": {
+    "node": "22.x"
+  }
+}

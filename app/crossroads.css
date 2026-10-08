@@ -1,0 +1,97 @@
+.crossroads-section { padding: 64px 0 66px; background: var(--ivory); border-bottom: 1px solid var(--line); }
+.crossroads-heading { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); align-items: end; gap: 65px; margin-bottom: 34px; }
+.crossroads-heading .eyebrow { font-size: .625rem; margin-bottom: 20px; }
+.crossroads-heading h2 { font-size: clamp(2.5rem, 4.2vw, 3.8rem); line-height: 1.04; letter-spacing: -.06em; }
+.crossroads-heading > p { font-size: .9375rem; line-height: 1.8; color: var(--muted); padding-bottom: 5px; }
+.crossroads-layout { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 45px; align-items: center; }
+.crossroads-world { container-type: inline-size; }
+.crossroads-world, .crossroads-example { min-width: 0; }
+.crossroads-scene { position: relative; }
+.crossroads-landscape { display: block; width: 100%; height: auto; overflow: hidden; }
+.crossroads-sign { opacity: 1; }
+.crossroads-world[data-path="launch"] .sign-launch,
+.crossroads-world[data-path="change"] .sign-change,
+.crossroads-world[data-path="rethink"] .sign-rethink { opacity: 1; }
+.crossroads-world[data-path="launch"] .sign-launch .sign-face,
+.crossroads-world[data-path="change"] .sign-change .sign-face,
+.crossroads-world[data-path="rethink"] .sign-rethink .sign-face { stroke-width: 3; }
+.crossroads-choices { position: absolute; inset: 0; pointer-events: none; }
+.crossroads-choice { position: absolute; display: grid; place-items: center; min-height: 24px; padding: 0 7px; border: 0; border-radius: 0; color: var(--ink); background: transparent; font-size: clamp(.8125rem, 2.55cqw, 1.1875rem); font-weight: 800; letter-spacing: -.025em; line-height: 1.2; pointer-events: auto; }
+.crossroads-choice > span { display: block; }
+.crossroads-choice > .crossroads-short-label { display: none; }
+.crossroads-choice.choice-launch { left: 38.4%; top: 13.54%; width: 28.8%; height: 10.93%; padding-left: 12px; }
+.crossroads-choice.choice-change { left: 56.97%; top: 28.27%; width: 32.76%; height: 12.83%; padding-right: 15px; }
+.crossroads-choice.choice-rethink { left: 42.1%; top: 44.18%; width: 25.13%; height: 10.45%; padding-left: 12px; }
+.crossroads-choice:focus-visible { outline: 3px solid var(--blue-dark); outline-offset: 5px; border-radius: 2px; }
+.crossroads-art-note { font-size: .8125rem; line-height: 1.8; text-align: center; color: var(--muted); margin-top: 12px; }
+.crossroads-art-note strong { color: var(--ink); font-weight: 700; }
+.crossroads-card { position: relative; background: #fffcf3; border: 1px solid var(--ink); border-radius: 7px; box-shadow: 6px 7px 0 #123b3f12; }
+.crossroads-card-top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 15px; padding: 12px 21px; border-bottom: 1px solid var(--line); font: .625rem/1.6 var(--font-mono), monospace; letter-spacing: .04em; }
+.crossroads-card-top > span:last-child { padding: 3px 7px; border: 1px solid #123b3f70; }
+.crossroads-verdict-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 22px; padding: 25px 22px 23px; }
+.crossroads-stamp { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 15px; padding: 12px 15px; color: var(--ink); background: var(--orange); border: 1px solid var(--ink); box-shadow: 2px 3px 0 #123b3f10; transform: rotate(-3deg); font-size: clamp(1rem, 1.65vw, 1.5rem); font-weight: 800; letter-spacing: -.055em; line-height: 1.2; max-width: 100%; }
+.crossroads-stamp svg { width: 21px; height: 21px; flex-shrink: 0; transform: rotate(-45deg); }
+.crossroads-card[data-path="launch"] .crossroads-stamp { background: #94bc83; }
+.crossroads-card[data-path="rethink"] .crossroads-stamp { background: #e3a38a; }
+.crossroads-finding { display: grid; gap: 4px; font-size: .6875rem; color: var(--muted); line-height: 1.6; }
+.crossroads-finding strong { color: var(--ink); font: .75rem/1.5 var(--font-mono), monospace; }
+.crossroads-detail-intro { padding: 0 22px 19px; }
+.crossroads-detail h3 { font-size: 1.5rem; line-height: 1.2; letter-spacing: -.04em; }
+.crossroads-detail-intro > p { margin-top: 10px; font-size: .8125rem; line-height: 1.75; color: var(--muted); }
+.crossroads-next-steps { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--line); }
+.crossroads-next-steps li { display: grid; grid-template-columns: 23px minmax(0, 1fr); align-items: start; gap: 11px; padding: 18px 22px; border-bottom: 1px solid var(--line); }
+.crossroads-next-steps li > span { font: .625rem/1.75 var(--font-mono), monospace; color: var(--muted); margin-top: 2px; }
+.crossroads-next-steps p { font-size: .875rem; line-height: 1.6; font-weight: 700; }
+.crossroads-example-reason { padding: 15px 22px; font-size: .75rem; line-height: 1.75; color: var(--muted); }
+.crossroads-report-link { display: flex; justify-content: space-between; align-items: center; gap: 18px; padding: 17px 22px; background: #eeeedc; border-top: 1px solid var(--line); border-radius: 0 0 6px 6px; font-size: .8125rem; font-weight: 700; }
+.crossroads-report-link svg { flex-shrink: 0; }
+.crossroads-report-link:hover { background: #e5e9cd; }
+.crossroads-example-note { font-size: .6875rem; line-height: 1.7; color: var(--muted); margin-top: 15px; }
+@container (width < 28rem) {
+  .crossroads-choice { font-size: .875rem; }
+  .choice-change > .crossroads-full-label { display: none; }
+  .choice-change > .crossroads-short-label { display: block; }
+}
+@container (width < 18rem) {
+  .crossroads-choices { position: static; display: grid; gap: 8px; margin-top: 14px; }
+  .crossroads-choice.choice-launch, .crossroads-choice.choice-change, .crossroads-choice.choice-rethink { position: static; width: 100%; height: auto; min-height: 44px; padding: 12px 15px; border: 1px solid var(--ink); background: #e5ead6; font-size: 1rem; }
+  .crossroads-choice[aria-pressed="true"] { background: var(--orange); }
+  .choice-change > .crossroads-full-label { display: block; }
+  .choice-change > .crossroads-short-label { display: none; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .crossroads-sign { transition: opacity .25s ease; }
+  .crossroads-choice > span { transition: transform .2s ease; }
+  .crossroads-choice:hover > span { transform: translateX(3px); }
+  .crossroads-choice.choice-launch:hover > span, .crossroads-choice.choice-rethink:hover > span { transform: translateX(-3px); }
+  .crossroads-stamp { transition: background .2s; }
+}
+@media (max-width: 1100px) {
+  .crossroads-layout { gap: 30px; }
+  .crossroads-heading { gap: 40px; }
+  .crossroads-verdict-row { gap: 15px; padding: 22px 20px; }
+  .crossroads-stamp { font-size: 1.1rem; padding: 11px 12px; gap: 12px; }
+}
+@media (min-width: 768px) and (max-width: 900px) {
+  .crossroads-heading { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .crossroads-layout { grid-template-columns: minmax(0, 1fr); gap: 30px; }
+  .crossroads-world { width: 100%; max-width: 540px; margin-inline: auto; }
+  .crossroads-example { width: 100%; max-width: 620px; margin-inline: auto; }
+}
+@media (max-width: 767px) {
+  .crossroads-section { padding: 52px 0; }
+  .crossroads-heading { grid-template-columns: minmax(0, 1fr); gap: 20px; margin-bottom: 26px; }
+  .crossroads-heading h2 { font-size: 2.6rem; line-height: 1.08; }
+  .crossroads-heading .eyebrow { font-size: .5625rem; margin-bottom: 18px; }
+  .crossroads-heading > p { font-size: .875rem; padding: 0; }
+  .crossroads-layout { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  .crossroads-art-note { font-size: .75rem; margin-top: 14px; }
+  .crossroads-card-top { font-size: .5625rem; padding: 12px 18px; }
+  .crossroads-verdict-row { padding: 22px 18px; gap: 17px; }
+  .crossroads-stamp { font-size: 1.25rem; }
+  .crossroads-detail-intro { padding: 0 18px 18px; }
+  .crossroads-detail h3 { font-size: 1.4rem; }
+  .crossroads-next-steps li { padding: 16px 18px; }
+  .crossroads-example-reason { padding: 15px 18px; }
+  .crossroads-report-link { padding: 17px 18px; }
+}
