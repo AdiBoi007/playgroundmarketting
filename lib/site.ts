@@ -5,4 +5,4 @@ export const siteOrigin = (
     : "https://tryplayground.net")
 ).replace(/\/$/, "");
 export const siteDescription =
-  "Find out whether people need and can use what you’re building. Playground chooses the right test with real people, AI or relevant experts, from your first idea to your next release.";
+  "Find your pilot users and test before you launch. Playground recruits people who fit your audience and tests your idea, prototype, MVP or next feature with them.";

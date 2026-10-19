@@ -1,12 +1,13 @@
-import { isValidWaitlistEmail, type WaitlistSignup } from "@/lib/waitlist";
+import { isValidWaitlistEmail, validateWaitlist, type WaitlistSignup } from "@/lib/waitlist";
 import { validateLead, type Lead } from "@/lib/lead";
+import { validateTester, type TesterSignup } from "@/lib/tester";
 import type { TLSSocket } from "node:tls";
 
 export type TestRequestSignup = Lead & {
   consent: true;
   source: "run-a-test";
 };
-type NotificationSignup = WaitlistSignup | TestRequestSignup;
+type NotificationSignup = WaitlistSignup | TestRequestSignup | TesterSignup;
 
 export type GmailSMTPOptions = {
   host: "smtp.gmail.com";
@@ -99,12 +100,20 @@ function notificationMime(
   recipient: string,
 ) {
   const submittedAt = new Date().toISOString();
+  const tester = signup.source === "become-tester";
+  const resume = tester ? signup.resume : undefined;
+  const preferredContact = "contactMethod" in signup ? signup.contactMethod || "email" : "email";
   const body = [
-    "A new person joined the Playground waitlist.",
+    tester ? "A new tester applied to Playground." : "A new person joined the Playground waitlist.",
     "",
-    `Email: ${signup.email}`,
     `Name: ${signup.name || "Not provided"}`,
-    `Product: ${signup.productUrl || "Not provided"}`,
+    `Preferred contact: ${preferredContact === "linkedin" ? "LinkedIn / social" : preferredContact}`,
+    `Phone: ${signup.phone || "Not provided"}`,
+    `Social profile: ${signup.socialProfile || "Not provided"}`,
+    `Email: ${signup.email || "Not provided"}`,
+    ...(tester
+      ? [`Role: ${signup.role}`, `Company: ${signup.company || "Not provided"}`, `Résumé / CV: ${resume?.name || "Not provided"}`, "Testing interests:", signup.expertise || "Not provided", ""]
+      : [`Product: ${signup.productUrl || "Not provided"}`]),
     ...(signup.source === "run-a-test"
       ? [
           "",
@@ -120,24 +129,52 @@ function notificationMime(
     `Submitted at: ${submittedAt}`,
     `Signup reference: ${requestId}`,
     "",
-    "Consent: This person agreed to receive Playground early-access and launch updates.",
-    "Reply to this email to contact the person who signed up.",
+    tester
+      ? "Consent: This person agreed to be contacted about Playground tester opportunities."
+      : "Consent: This person agreed to receive Playground early-access and launch updates.",
+    signup.email && preferredContact === "email"
+      ? "Reply to this email to contact the person who signed up."
+      : "Follow up using the preferred contact method above.",
   ].join("\r\n");
-  return [
+  const headers = [
     `From: Playground <${sender}>`,
     `To: ${recipient}`,
-    `Reply-To: ${signup.email}`,
-    "Subject: New Playground waitlist signup",
+    ...(signup.email ? [`Reply-To: ${signup.email}`] : []),
+    tester ? "Subject: New Playground tester application" : "Subject: New Playground waitlist signup",
     `Date: ${new Date(submittedAt).toUTCString()}`,
     `Message-ID: <waitlist-${requestId}@${sender.split("@")[1]}>`,
     "MIME-Version: 1.0",
+  ];
+  const encodedBody = Buffer.from(body, "utf8").toString("base64").match(/.{1,76}/g)!.join("\r\n");
+  if (resume) {
+    const boundary = `playground-resume-${requestId}`;
+    const filename = resume.name.replace(/[^a-zA-Z0-9._ -]/g, "_");
+    const encodedFilename = encodeURIComponent(resume.name).replace(/['()*]/g, char => `%${char.charCodeAt(0).toString(16).toUpperCase()}`);
+    return [
+      ...headers,
+      `Content-Type: multipart/mixed; boundary="${boundary}"`,
+      "",
+      `--${boundary}`,
+      "Content-Type: text/plain; charset=UTF-8",
+      "Content-Transfer-Encoding: base64",
+      "",
+      encodedBody,
+      `--${boundary}`,
+      `Content-Type: ${resume.contentType}`,
+      "Content-Transfer-Encoding: base64",
+      `Content-Disposition: attachment; filename="${filename}"; filename*=UTF-8''${encodedFilename}`,
+      "",
+      resume.base64.match(/.{1,76}/g)!.join("\r\n"),
+      `--${boundary}--`,
+      "",
+    ].join("\r\n");
+  }
+  return [
+    ...headers,
     "Content-Type: text/plain; charset=UTF-8",
     "Content-Transfer-Encoding: base64",
     "",
-    Buffer.from(body, "utf8")
-      .toString("base64")
-      .match(/.{1,76}/g)!
-      .join("\r\n"),
+    encodedBody,
     "",
   ].join("\r\n");
 }
@@ -280,7 +317,7 @@ async function sendNotification(
   if (
     !hasGmailConfiguration(env) ||
     !/^[a-zA-Z0-9-]{16,80}$/.test(requestId) ||
-    !isValidWaitlistEmail(signup.email)
+    (signup.email ? !isValidWaitlistEmail(signup.email) : !signup.phone && !signup.socialProfile)
   )
     throw new GmailNotificationError();
   try {
@@ -358,7 +395,19 @@ export async function sendWaitlistNotification(
   requestId: string,
   options: GmailOptions = {},
 ): Promise<{ messageId: string }> {
-  return sendNotification(signup, requestId, options);
+  const validation = validateWaitlist(signup);
+  if ("error" in validation) throw new GmailNotificationError();
+  return sendNotification(validation.signup, requestId, options);
+}
+
+export async function sendTesterNotification(
+  signup: TesterSignup,
+  requestId: string,
+  options: GmailOptions = {},
+): Promise<{ messageId: string }> {
+  const validation = validateTester(signup);
+  if ("error" in validation) throw new GmailNotificationError();
+  return sendNotification(validation.signup, requestId, options);
 }
 
 export async function sendTestRequestNotification(

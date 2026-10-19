@@ -1,3 +1,4 @@
+/* Shared signup layout: imported by the root layout before any route navigation. */
 .waitlist-page {
   padding: 78px 0 88px;
   background: var(--ivory);
@@ -30,50 +31,6 @@
   margin-top: 25px;
   max-width: 445px;
   color: var(--muted);
-}
-.waitlist-copy > .waitlist-explainer {
-  font-size: 0.875rem;
-  line-height: 1.8;
-  margin-top: 13px;
-  color: var(--ink);
-}
-.waitlist-art {
-  position: relative;
-  margin-top: 31px;
-  border-radius: 6px;
-  overflow: hidden;
-  border: 1px solid var(--line);
-  background: #75cceb;
-}
-.waitlist-art img {
-  display: block;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 16 / 8.5;
-  object-fit: cover;
-  object-position: center 65%;
-}
-.waitlist-art-note {
-  position: absolute;
-  bottom: 16px;
-  left: 15px;
-  right: 15px;
-  width: fit-content;
-  max-width: calc(100% - 30px);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 10px;
-  background: #fbf7ebf0;
-  border: 1px solid var(--line);
-  border-radius: 3px;
-  font-family: var(--font-mono), monospace;
-  font-size: 0.625rem;
-  line-height: 1.6;
-}
-.waitlist-art-note .brand-mark {
-  width: 16px;
-  height: 16px;
 }
 .waitlist-preview-link {
   margin-top: 24px;
@@ -198,6 +155,13 @@
   transform: none;
   box-shadow: none;
 }
+.waitlist-form .waitlist-submit:hover {
+  transform: none;
+  box-shadow: 0 3px 0 var(--orange);
+}
+.waitlist-form .waitlist-submit:disabled:hover {
+  box-shadow: none;
+}
 .waitlist-footer-note {
   margin-top: 17px;
   font-size: 0.75rem;
@@ -296,20 +260,6 @@
     font-size: 0.9375rem;
     margin-top: 21px;
   }
-  .waitlist-copy > .waitlist-explainer {
-    font-size: 0.8125rem;
-    margin-top: 11px;
-  }
-  .waitlist-art {
-    margin-top: 25px;
-  }
-  .waitlist-art-note {
-    bottom: 12px;
-    left: 12px;
-    right: 12px;
-    max-width: calc(100% - 24px);
-    font-size: 0.625rem;
-  }
   .waitlist-preview-link {
     font-size: 0.8125rem;
     margin-top: 20px;
@@ -335,5 +285,320 @@
     justify-content: space-between;
     font-size: 0.8125rem;
     padding-inline: 19px;
+  }
+}
+.signup-page {
+  padding-top: 34px;
+  background: radial-gradient(ellipse at 0 30%, #e9eedb88, transparent 55%), var(--ivory);
+}
+.signup-paths {
+  display: flex;
+  gap: 5px;
+  width: fit-content;
+  max-width: calc(100% - 40px);
+  padding: 6px;
+  margin-bottom: 48px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #e9eddf;
+}
+.signup-paths a {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  min-height: 64px;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-size: .875rem;
+  font-weight: 700;
+  line-height: 1.5;
+  text-align: center;
+}
+.signup-paths a > span {
+  font: .5625rem/1.7 var(--font-mono), monospace;
+  font-weight: 400;
+  letter-spacing: .045em;
+}
+.signup-paths strong {
+  font-weight: inherit;
+}
+.signup-paths a[aria-current="page"] {
+  background: #fffdf6;
+  box-shadow: 0 2px 6px #123b3f12;
+}
+.signup-page .waitlist-layout {
+  gap: clamp(40px, 6vw, 85px);
+}
+.signup-page .waitlist-copy h1 {
+  font-size: clamp(3rem, 5.5vw, 5.3rem);
+  letter-spacing: -.065em;
+}
+.signup-promises {
+  display: grid;
+  gap: 24px;
+  padding: 0;
+  margin: 32px 0;
+  list-style: none;
+  counter-reset: signup-step;
+}
+.signup-promises li {
+  display: flex;
+  align-items: start;
+  gap: 17px;
+  counter-increment: signup-step;
+}
+.signup-promises li::before {
+  content: counter(signup-step, decimal-leading-zero);
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  font: .625rem var(--font-mono), monospace;
+  background: #e9eddf;
+}
+.signup-promises strong {
+  font-size: .9375rem;
+  line-height: 1.7;
+}
+.signup-promises p {
+  color: var(--muted);
+  font-size: .8125rem;
+  line-height: 1.8;
+  margin-top: 3px;
+  max-width: 350px;
+}
+.signup-editorial {
+  max-width: 445px;
+  padding: 24px 28px;
+  background: var(--ink);
+  color: var(--ivory);
+  border-radius: 7px;
+}
+.signup-editorial > span {
+  color: var(--lime);
+  font-size: .5625rem;
+  line-height: 1.8;
+}
+.signup-editorial p {
+  font-size: 1.65rem;
+  line-height: 1.4;
+  letter-spacing: -.04em;
+  margin-top: 15px;
+}
+.signup-editorial strong {
+  color: var(--lime);
+  font-weight: 700;
+}
+.signup-section-label {
+  font-size: .9375rem;
+  font-weight: 750;
+  line-height: 1.7;
+}
+.signup-field-note {
+  color: var(--muted);
+  font-size: .75rem;
+  font-weight: 400;
+  line-height: 1.7;
+  margin-top: 7px;
+}
+.signup-contact {
+  padding-top: 4px;
+  margin-bottom: 23px;
+  min-width: 0;
+}
+.contact-choices {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-block: 12px 20px;
+}
+.contact-choice {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  padding: 14px 16px;
+  min-height: 76px;
+  min-width: 0;
+  border: 1px solid #a2af9e;
+  border-radius: 6px;
+  background: white;
+  cursor: pointer;
+  transition: background .15s, color .15s, border-color .15s;
+}
+.contact-choice input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.contact-choice:has(input:checked) {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--ivory);
+}
+.contact-choice:has(input:focus-visible) {
+  outline: 3px solid var(--blue-dark);
+  outline-offset: 4px;
+}
+.contact-choice-title {
+  font-size: .9375rem;
+  font-weight: 750;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.contact-choice-detail {
+  font-size: .75rem;
+  line-height: 1.6;
+}
+.signup-contact .waitlist-field {
+  margin-bottom: 9px;
+}
+.signup-profile,
+.signup-resume {
+  min-width: 0;
+  margin-bottom: 24px;
+}
+.signup-contact > div + .signup-profile {
+  margin-top: 18px;
+}
+.signup-contact .signup-profile {
+  margin-bottom: 0;
+}
+.signup-profile .waitlist-field,
+.signup-resume .waitlist-field {
+  margin-bottom: 9px;
+}
+.signup-resume-input {
+  width: 100%;
+  min-width: 0;
+  padding: 12px;
+  border: 1px dashed #a2af9e;
+  border-radius: 6px;
+  background: #f1f4e9;
+  color: var(--ink);
+  font-size: .8125rem;
+  line-height: 1.8;
+}
+.signup-resume-input::file-selector-button {
+  padding: 9px 12px;
+  margin-right: 12px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: #fffdf6;
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+}
+.signup-resume-remove {
+  display: block;
+  min-height: 44px;
+  padding: 10px 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font-size: .75rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.signup-input,
+.signup-extra textarea {
+  width: 100%;
+  min-width: 0;
+  padding: 12px 13px;
+  border: 1px solid #a2af9e;
+  border-radius: 4px;
+  background: white;
+  color: var(--ink);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.6;
+}
+.signup-input::placeholder,
+.signup-extra textarea::placeholder {
+  color: #67796f;
+  opacity: 1;
+}
+.signup-extra {
+  border-block: 1px solid var(--line);
+  margin-bottom: 22px;
+}
+.signup-extra summary {
+  padding-block: 16px;
+  font-size: .8125rem;
+  font-weight: 650;
+  line-height: 1.7;
+  cursor: pointer;
+}
+.signup-extra summary span {
+  color: var(--muted);
+  font-weight: 400;
+}
+.signup-extra .waitlist-field {
+  margin: 6px 0 20px;
+}
+.signup-extra textarea {
+  resize: vertical;
+}
+.tester-questions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: start;
+  gap: 80px;
+  margin-top: 90px;
+  padding-top: 55px;
+  border-top: 1px solid var(--line);
+}
+.tester-questions h2 {
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  line-height: 1.15;
+}
+@media (max-width: 767px) {
+  .signup-page {
+    padding-top: 24px;
+  }
+  .signup-paths {
+    width: calc(100% - 40px);
+    margin-bottom: 30px;
+  }
+  .signup-paths a {
+    flex: 1;
+    min-width: 0;
+    padding: 10px 8px;
+    font-size: .8125rem;
+  }
+  .signup-paths a > span {
+    font-size: .5rem;
+  }
+  .signup-page .waitlist-copy h1 {
+    font-size: clamp(2.75rem, 11vw, 4.5rem);
+  }
+  .signup-page .signup-promises,
+  .signup-page .signup-editorial {
+    display: none;
+  }
+  .signup-page .waitlist-layout {
+    gap: 28px;
+  }
+  .contact-choice {
+    padding: 12px 10px;
+    min-height: 88px;
+  }
+  .contact-choice-title {
+    font-size: .875rem;
+  }
+  .tester-questions {
+    grid-template-columns: 1fr;
+    gap: 25px;
+    margin-top: 55px;
+    padding-top: 40px;
   }
 }

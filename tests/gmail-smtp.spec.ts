@@ -25,6 +25,8 @@ const signup: WaitlistSignup = {
   email: "founder@example.com",
   name: "Zoë Founder",
   productUrl: "https://example.com/prototype?cohort=beta",
+  phone: "+1 (415) 555-0123",
+  socialProfile: "X: @testfounder",
   consent: true,
   source: "waitlist",
 };
@@ -253,6 +255,8 @@ test("SMTP uses verified Gmail TLS on port 465 and sends only a fixed raw notifi
     `Email: ${signup.email}`,
     `Name: ${signup.name}`,
     `Product: ${signup.productUrl}`,
+    `Phone: ${signup.phone}`,
+    `Social profile: ${signup.socialProfile}`,
     "Source: waitlist",
     `Signup reference: ${requestId}`,
     "Consent: This person agreed",

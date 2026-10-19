@@ -27,8 +27,8 @@ export default async function RunATest({
             <span className="blue-text">you building?</span>
           </h1>
           <p>
-            Share a short brief and join the waitlist. We’re in early access,
-            with paid tests underway.
+            Tell us who your pilot users should be and what you need to
+            validate. We’re in early access, with paid tests underway.
           </p>
           <ol>
             <li>
@@ -41,8 +41,8 @@ export default async function RunATest({
             <li>
               <span>02</span>
               <div>
-                <strong>We choose the right test</strong>
-                <p>People, AI or relevant experts, to fit the question.</p>
+                <strong>We find your pilot users</strong>
+                <p>We recruit your audience and test the product with them.</p>
               </div>
             </li>
             <li>

@@ -1,0 +1,81 @@
+.section { padding: 96px 0 80px; background: #f0f0e4; border-block: 1px solid var(--line); }
+.heading { display: grid; grid-template-columns: 1.5fr 1fr; align-items: end; gap: 60px; margin-bottom: 40px; }
+.heading h2 { font-size: clamp(2.3rem, 4.2vw, 3.8rem); line-height: 1.12; letter-spacing: -.055em; }
+.heading > p { color: var(--muted); font-size: 1rem; line-height: 1.8; max-width: 385px; }
+.canvas { min-width: 0; border: 1px solid var(--ink); border-radius: 14px; background: #fffdf6; box-shadow: 7px 8px 0 #123b3f0d; overflow: hidden; }
+.diagramLabel { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 24px 32px 4px; font-size: .75rem; color: var(--muted); }
+.diagramLabel > span:first-child { font-size: .625rem; letter-spacing: .06em; }
+.diagramLabel > span:last-child { display: flex; align-items: center; gap: 12px; }
+.rail { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); position: relative; isolation: isolate; margin: 22px 26px 0; }
+.rail::before, .rail::after { content: ""; position: absolute; height: 2px; top: 44px; left: 10%; z-index: -1; }
+.rail::before { width: 80%; background: #c9d2bf; }
+.rail::after { width: var(--journey-progress); background: var(--blue-dark); transition: width .25s ease; }
+.stage { min-width: 0; background: transparent; border: 0; color: var(--muted); padding: 12px 6px; display: flex; flex-direction: column; align-items: center; cursor: pointer; line-height: 1.5; border-radius: 8px; }
+.stage:focus-visible { outline-offset: -3px; }
+.icon { display: grid; place-items: center; width: 64px; height: 64px; border-radius: 50%; border: 1px solid #b9c5ae; background: #edf0e4; color: var(--ink); transition: background .2s, box-shadow .2s; }
+.icon svg { width: 29px; height: 29px; }
+.stage[aria-selected="true"] { color: var(--ink); }
+.stage[aria-selected="true"] .icon { background: var(--ink); color: var(--lime); border-color: var(--ink); box-shadow: 0 0 0 5px #dce6cd; }
+.stage:hover .icon { box-shadow: 0 0 0 5px #dce6cd; }
+.stepNumber { font: .5625rem/1.5 var(--font-mono), monospace; margin-top: 16px; }
+.stageName { font-size: 1rem; font-weight: 750; margin-top: 4px; overflow-wrap: anywhere; }
+.repeat { display: flex; align-items: center; justify-content: center; gap: 10px; text-align: center; font-size: .75rem; color: var(--muted); padding: 16px 20px 25px; }
+.repeat > span { font-size: 1.35rem; line-height: 1; color: var(--blue-dark); }
+.panel { display: grid; grid-template-columns: 1.2fr 1fr; border-top: 1px solid var(--line); }
+.panel[hidden] { display: none; }
+.panelCopy { padding: 35px 36px; }
+.label { font: .625rem/1.7 var(--font-mono), monospace; letter-spacing: .055em; }
+.panelCopy h3 { font-size: clamp(1.75rem, 2.8vw, 2.5rem); line-height: 1.16; letter-spacing: -.045em; margin-top: 15px; max-width: 480px; }
+.panelCopy > p { color: var(--muted); font-size: .9375rem; line-height: 1.8; margin-top: 18px; max-width: 490px; }
+.audience { padding: 30px 36px; background: var(--ink); color: var(--ivory); }
+.audience > p { font-size: 1.25rem; line-height: 1.5; font-weight: 650; margin-top: 11px; max-width: 350px; }
+.people { display: flex; align-items: center; margin-bottom: 20px; padding-left: 8px; }
+.people :global(.avatar) { width: 48px; height: 48px; margin-left: -8px; border: 2px solid var(--ink); }
+.people > span { margin-left: auto; font-size: 2rem; font-weight: 400; color: var(--lime); }
+.audience ul { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0; margin-top: 18px; }
+.audience li { padding: 5px 10px; border: 1px solid #fbf7eb44; border-radius: 20px; font-size: .6875rem; line-height: 1.6; }
+.test, .decision { padding: 25px 36px; border-top: 1px solid var(--line); }
+.test { background: #edf1e3; }
+.decision { background: #e9f0f3; }
+.test > p, .decision > p { font-size: .875rem; line-height: 1.8; margin-top: 11px; max-width: 475px; }
+.action { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; gap: 25px; border-top: 1px solid var(--line); padding: 24px 36px; }
+.action :global(.button) { font-size: .875rem; gap: 24px; text-align: left; line-height: 1.5; }
+.action > span { color: var(--muted); font-size: .75rem; line-height: 1.8; max-width: 270px; }
+.footnote { font-size: .875rem; font-weight: 650; text-align: center; margin-top: 30px; }
+.fallback { padding: 24px; border-top: 1px solid var(--line); font-size: .875rem; }
+.fallback ul { padding-left: 20px; margin-top: 12px; }
+.fallback li + li { margin-top: 12px; }
+@media (max-width: 900px) {
+  .heading { grid-template-columns: 1fr; gap: 22px; }
+  .heading > p { max-width: 620px; }
+  .panelCopy, .audience { padding: 28px; }
+  .test, .decision, .action { padding: 24px 28px; }
+  .action { align-items: start; flex-direction: column; gap: 15px; }
+  .action > span { max-width: none; }
+}
+@media (max-width: 600px) {
+  .section { padding: 60px 0 48px; }
+  .heading { gap: 20px; margin-bottom: 28px; }
+  .heading h2 { font-size: clamp(2.1rem, 8vw, 3rem); }
+  .heading > p { font-size: .9375rem; }
+  .canvas { border-radius: 9px; box-shadow: 4px 5px 0 #123b3f0d; }
+  .diagramLabel { padding: 20px 16px 2px; gap: 15px; flex-wrap: wrap; }
+  .diagramLabel > span:last-child { font-size: .6875rem; }
+  .rail { margin: 20px 5px 0; }
+  .rail::before, .rail::after { top: 32px; }
+  .stage { padding: 10px 2px; }
+  .icon { width: 44px; height: 44px; }
+  .icon svg { width: 23px; height: 23px; }
+  .stepNumber { margin-top: 12px; }
+  .stageName { font-size: .75rem; }
+  .repeat { font-size: .6875rem; padding: 12px 16px 20px; }
+  .panel { grid-template-columns: minmax(0, 1fr); }
+  .panelCopy, .audience, .test, .decision, .action { padding: 24px 20px; }
+  .panelCopy h3 { font-size: 1.9rem; }
+  .panelCopy > p { font-size: .875rem; }
+  .audience > p { font-size: 1.125rem; }
+  .action :global(.button) { width: 100%; justify-content: space-between; gap: 15px; padding-inline: 16px; }
+  .footnote { font-size: .8125rem; max-width: 260px; margin-inline: auto; line-height: 1.8; }
+}
+@media (prefers-reduced-motion: reduce) { .rail::after, .icon { transition: none; } }
+@media print { .panel[hidden] { display: grid; } .action { display: none; } }

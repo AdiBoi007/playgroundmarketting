@@ -17,6 +17,8 @@ const brief = {
   name: "Zoë Founder",
   email: "founder@example.com",
   productUrl: "https://example.com/prototype?cohort=beta",
+  phone: "+44 (0)20 7946 0958 ext. 12",
+  socialProfile: "Instagram: @testfounder",
   targetUser: "Freelance illustrators managing recurring invoices.",
   testGoal:
     "Do users trust automatic sending?\nDo they review the preview first?",
@@ -41,6 +43,8 @@ async function fillBrief(page: Page, consent = true) {
   await page.getByLabel("Product or prototype link").fill(brief.productUrl);
   await page.getByLabel("Who is it for?").fill(brief.targetUser);
   await page.getByLabel("What do you want to find out?").fill(brief.testGoal);
+  await page.getByLabel("Phone number (optional)", { exact: true }).fill(brief.phone);
+  await page.getByLabel("LinkedIn or social profile (optional)", { exact: true }).fill(brief.socialProfile);
   if (consent) await page.getByRole("checkbox", { name: consentLabel }).check();
 }
 
@@ -50,6 +54,8 @@ async function expectPreservedBrief(page: Page) {
   await expect(page.getByLabel("Product or prototype link")).toHaveValue(brief.productUrl);
   await expect(page.getByLabel("Who is it for?")).toHaveValue(brief.targetUser);
   await expect(page.getByLabel("What do you want to find out?")).toHaveValue(brief.testGoal);
+  await expect(page.getByLabel("Phone number (optional)", { exact: true })).toHaveValue(brief.phone);
+  await expect(page.getByLabel("LinkedIn or social profile (optional)", { exact: true })).toHaveValue(brief.socialProfile);
   await expect(page.getByRole("checkbox", { name: consentLabel })).toBeChecked();
   await expect(page.getByText(confirmation, { exact: true })).toHaveCount(0);
 }
@@ -216,7 +222,7 @@ test("lead API sends all five brief fields, source and consent before returning 
       "Content-Transfer-Encoding: base64",
     ]));
     const body = Buffer.from(encodedBody, "base64").toString("utf8");
-    for (const value of [brief.name, brief.email, brief.productUrl, brief.targetUser, brief.testGoal])
+    for (const value of Object.values(brief))
       expect(body.replace(/\r\n/g, "\n")).toContain(value.replace(/\r\n/g, "\n"));
     expect(body).toContain("Target customer:");
     expect(body).toContain("What to test:");

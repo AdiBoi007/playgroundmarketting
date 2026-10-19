@@ -197,6 +197,61 @@ p {
 .text-link:hover {
   gap: 22px;
 }
+.contact-fields {
+  min-width: 0;
+  border-top: 1px solid var(--line);
+  padding-top: 22px;
+  margin-bottom: 24px;
+}
+.contact-fields-title {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  line-height: 1.6;
+}
+.contact-fields-intro {
+  color: var(--muted);
+  font-size: 0.75rem;
+  line-height: 1.7;
+  margin: 6px 0 18px;
+}
+.contact-fields .contact-field {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin: 0 0 18px;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  line-height: 1.6;
+}
+.contact-fields .contact-field:last-child {
+  margin-bottom: 0;
+}
+.contact-fields .contact-field > label {
+  margin: 0;
+  font-size: inherit;
+}
+.contact-fields input {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid #a2af9e;
+  border-radius: 4px;
+  padding: 12px 13px;
+  background: white;
+  color: var(--ink);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.6;
+}
+.contact-fields input::placeholder {
+  color: #67796f;
+  opacity: 1;
+}
+.contact-field-hint {
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.7;
+}
 .site-header {
   position: relative;
   z-index: 30;

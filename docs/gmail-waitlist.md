@@ -1,6 +1,6 @@
 # Gmail signup and test-brief setup
 
-The `/waitlist` form posts to `/api/waitlist`; `/run-a-test` posts its full brief to `/api/lead` and also joins the waitlist. Both use one shared Gmail configuration to notify the owner inbox chosen in `WAITLIST_NOTIFY_EMAIL`. Configure that address privately in `.env.local` or Vercel. Only the sender mailbox authorizes Google access. Visitors do not sign in with Google and do not receive an automatic email.
+The `/waitlist` form posts to `/api/waitlist`; `/run-a-test` posts its full brief to `/api/lead` and also joins the waitlist. The `/become-a-tester` form posts to `/api/testers` for a separate tester application. All three use one shared Gmail configuration to notify the owner inbox chosen in `WAITLIST_NOTIFY_EMAIL`. Configure that address privately in `.env.local` or Vercel. Only the sender mailbox authorizes Google access. Visitors do not sign in with Google and do not receive an automatic email. Waitlist and tester signups can use only a phone number or LinkedIn/social profile; email is the last fallback. Notifications include the selected contact method. The owner follows up manually through that channel; only an application that supplies an email gets a `Reply-To` header.
 
 Test requests require explicit consent to join the waitlist and receive early-access and launch updates. The server requires `consent: true` and emails the name, email address, product URL, target user, and test goal with source `run-a-test`, consent, time, and reference in one notification. The form confirms both brief delivery and waitlist registration only after Gmail acceptance. This creates an enquiry, not a test booking or promised date. Saving a brief locally sends nothing and creates no waitlist entry. There is no separate request webhook to configure.
 
@@ -102,13 +102,14 @@ Use your own credentials: tokens obtained with the Playground's shared credentia
 
 ## Verify delivery after configuration
 
-Submit a clearly labeled test signup through `/waitlist`, or a full brief through `/run-a-test` with its required consent, yourself. Check that:
+Submit a clearly labeled test signup through `/waitlist`, a tester application through `/become-a-tester`, or a full brief through `/run-a-test` with its required consent, yourself. Check that:
 
 - The form shows success only when the configured Gmail transport confirms acceptance.
 - The notification reaches your configured owner inbox; check Spam and filters if needed. Do not rely on a sender Sent copy as the waitlist record.
 - The signup details in the notification are correct. No automatic message is sent to the signup address.
 - For a test brief, all five fields and the `run-a-test` source appear in the same notification. The response confirms both `delivered: true` and `waitlisted: true`; the UI confirms waitlist registration without promising a booked test.
 - In local development, removing required configuration or simulating a delivery failure produces an error rather than a successful registration.
+- A phone-only or LinkedIn-only signup confirms without an email address. Tester applications have the subject “New Playground tester application” and include role, optional company/interests, and separate tester-opportunity consent.
 - Saving a local brief works without submitting or joining the waitlist, including before selecting consent.
 
 Gmail acceptance does not guarantee inbox placement or that the owner has read the message. Delivered notifications in the owner mailbox hold the signup and test-brief records; there is no separate database, subscriber management system, booking queue, or delivery queue. Apply your usual mailbox retention and access practices to these records.

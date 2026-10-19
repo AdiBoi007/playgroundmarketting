@@ -9,6 +9,7 @@ import "./brand.css";
 import "./home.css";
 import "./personality.css";
 import "./crossroads.css";
+import "./waitlist.css";
 const sans = localFont({
   src: "../public/fonts/manrope.woff2",
   variable: "--font-sans",
@@ -25,21 +26,21 @@ const mono = localFont({
 export const metadata: Metadata = {
   metadataBase: new URL(siteOrigin),
   title: {
-    default: "Playground | Find Out Before You Launch",
+    default: "Playground | Find Your Pilot Users",
     template: "%s | Playground",
   },
   description: siteDescription,
   openGraph: {
-    title: "Playground | Find Out Before You Launch",
+    title: "Playground | Find Your Pilot Users",
     description: siteDescription,
     type: "website",
     siteName: "Playground",
     locale: "en_US",
-    images: [{ url: "/brand/playground-landscape.png", width: 1672, height: 941, alt: "Playground — find out before you launch" }],
+    images: [{ url: "/brand/playground-landscape.png", width: 1672, height: 941, alt: "Playground — find your pilot users and test before you launch" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Playground | Find Out Before You Launch",
+    title: "Playground | Find Your Pilot Users",
     description: siteDescription,
     images: ["/brand/playground-landscape.png"],
   },

@@ -19,6 +19,8 @@ const signup: WaitlistSignup = {
   email: "founder@example.com",
   name: "Zoë Founder",
   productUrl: "https://example.com/prototype?cohort=beta",
+  phone: "+61 412 345 678",
+  socialProfile: "https://www.linkedin.com/in/test-founder",
   consent: true,
   source: "waitlist",
 };
@@ -150,6 +152,8 @@ test("Gmail refreshes OAuth credentials and sends the exact MIME notification", 
   expect(body).toContain(`Email: ${signup.email}`);
   expect(body).toContain(`Name: ${signup.name}`);
   expect(body).toContain(`Product: ${signup.productUrl}`);
+  expect(body).toContain(`Phone: ${signup.phone}`);
+  expect(body).toContain(`Social profile: ${signup.socialProfile}`);
   expect(body).toContain("Source: waitlist");
   expect(body).toContain(`Signup reference: ${requestId}`);
   expect(body).toContain("Consent: This person agreed");

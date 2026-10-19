@@ -1,32 +1,20 @@
-export type WaitlistSignup = {
+import type { ContactDetails } from "@/lib/contact";
+import { validateSignupContact, type ContactMethod } from "@/lib/signup-contact";
+
+export type WaitlistSignup = ContactDetails & {
   email: string;
+  contactMethod?: ContactMethod;
   name: string;
   productUrl: string;
   consent: true;
   source: "waitlist" | "hero" | "footer";
 };
 
-export function isValidWaitlistEmail(email: string) {
-  return (
-    email.length <= 254 &&
-    /^[a-z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-z0-9](?:[a-z0-9-]*[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)+$/i.test(
-      email,
-    )
-  );
-}
+export { isValidWaitlistEmail } from "@/lib/email";
 
 export function validateWaitlist(
   input: Record<string, unknown>,
 ): { signup: WaitlistSignup } | { error: string } {
-  if (
-    typeof input.email !== "string" ||
-    input.email.length > 254 ||
-    /[\u0000-\u001f\u007f]/.test(input.email)
-  )
-    return { error: "Please enter a valid email address." };
-  const email = input.email.trim().toLowerCase();
-  if (!isValidWaitlistEmail(email))
-    return { error: "Please enter a valid email address." };
   if (input.consent !== true)
     return {
       error: "Please agree to receive early-access and launch updates.",
@@ -68,5 +56,9 @@ export function validateWaitlist(
   const source = input.source === undefined ? "waitlist" : input.source;
   if (source !== "waitlist" && source !== "hero" && source !== "footer")
     return { error: "Please submit from the Playground waitlist." };
-  return { signup: { email, name, productUrl, consent: true, source } };
+  const contact = validateSignupContact(input);
+  if ("error" in contact) return contact;
+  return {
+    signup: { name, productUrl, ...contact.contact, consent: true, source },
+  };
 }

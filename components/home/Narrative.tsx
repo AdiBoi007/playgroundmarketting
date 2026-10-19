@@ -20,7 +20,7 @@ export function Assumptions() {
         <Eyebrow>THE THINGS YOU THINK YOU KNOW</Eyebrow>
         <div className="assumptions-heading" data-reveal>
           <h2>Your product is full<br />of <span className="underlined">assumptions.</span></h2>
-          <p>Every launch is a bet.<br />Some bets deserve a little evidence.</p>
+          <p>Before you build around a guess,<br />put it in front of your pilot users.</p>
         </div>
         <div className="assumption-wall" data-reveal>
           {notes.map((text, index) => (
@@ -46,12 +46,12 @@ export function EnterPlayground() {
   return (
     <section className="home-how home-section">
       <div className="container">
-        <div className="home-heading-row" data-reveal><div><Eyebrow>HOW PLAYGROUND WORKS</Eyebrow><h2>Bring the question.<br /><span className="blue-text">Leave with a next move.</span></h2></div><Link href="/how-it-works" className="text-link">How it works <Arrow /></Link></div>
+        <div className="home-heading-row" data-reveal><div><Eyebrow>HOW PLAYGROUND WORKS</Eyebrow><h2>Your audience.<br /><span className="blue-text">Found. Matched. Tested.</span></h2></div><Link href="/how-it-works" className="text-link">How it works <Arrow /></Link></div>
         <div className="home-step-grid">
           {[
-            { title: "Tell us what you’re building", copy: "Share your idea or product, who it’s for, and what you need to find out.", detail: "“Will freelancers trust this to send their invoices?”", icon: "?" },
-            { title: "We choose the right test", copy: "We work out what to check and whether people, AI, or a field expert can best help answer it.", detail: "Five freelancers. One invoice. No walkthrough.", icon: "↗" },
-            { title: "Get findings and next steps", copy: "See what happened, what it means, and what to improve. Make the change, then check it again.", detail: "“Let them review the invoice before it sends.”", icon: "✓" },
+            { title: "Tell us who you need", copy: "Share your idea, stage, target audience and the assumption you want to test.", detail: "“Will freelancers trust this to send their invoices?”", icon: "?" },
+            { title: "We find your pilot users", copy: "We recruit people who fit your audience and run a test around your question. Audience, scope, price and timing are agreed upfront.", detail: "Five freelancers. One invoice. No walkthrough.", icon: "↗" },
+            { title: "Learn before your next move", copy: "See what your pilot users did, where they struggled, and what to improve before you build or release the next version.", detail: "“Let them review the invoice before it sends.”", icon: "✓" },
           ].map((item, index) => <article className="home-step" key={item.title} data-reveal style={{ "--reveal-delay": `${index * 85}ms` } as CSSProperties}><div className="home-step-top"><span>0{index + 1}</span><span aria-hidden="true">{item.icon}</span></div><h3>{item.title}</h3><p>{item.copy}</p><div className="home-step-example"><span>EXAMPLE</span><p>{item.detail}</p></div></article>)}
         </div>
       </div>
@@ -63,7 +63,7 @@ export function Matching() {
   return (
     <section className="home-methods home-section">
       <div className="container">
-        <div className="home-section-heading" data-reveal><Eyebrow>THE RIGHT TEST FOR THE QUESTION</Eyebrow><h2>Different questions.<br /><span className="blue-text">Different testers.</span></h2><p>A hiring tool needs recruiters. A new feature needs the people who might use it. We choose the test around the question.</p></div>
+        <div className="home-section-heading" data-reveal><Eyebrow>RELEVANCE COMES FIRST</Eyebrow><h2>People your product<br /><span className="blue-text">is actually built for.</span></h2><p>A hiring tool needs recruiters. An invoicing app needs people who send invoices. We find pilot users who fit the work, the problem and the audience.</p></div>
         <div className="home-method-grid">
           <article className="home-method-card" data-reveal><div className="method-people-art" aria-hidden="true">{[0, 1, 2].map(index => <Avatar key={index} index={index} />)}</div><span className="home-method-label">REAL PEOPLE</span><h3>Let your customers<br />surprise you.</h3><p>People who fit your audience try your product. You see what makes sense, what gets missed, and where they stop.</p><span className="home-method-example">“Can someone finish signing up?”</span></article>
           <article className="home-method-card method-ai" data-reveal><div className="method-ai-art" aria-hidden="true"><span>↗</span><i /><i /><i /></div><span className="home-method-label">AI</span><h3>Let AI try<br />the what-ifs.</h3><p>AI can act out different types of users and situations to find possible problems. Real people check the parts that depend on human choices.</p><span className="home-method-example">“What might a first-time user miss?”</span></article>
@@ -96,17 +96,18 @@ export function SamplePreview() {
 export function UseCaseSection() {
   return (
     <section className="home-every-stage home-section">
-      <div className="container"><div className="home-section-heading" data-reveal><Eyebrow>YOUR PRODUCT KEEPS CHANGING</Eyebrow><h2>New idea?<br />New feature?<br /><span className="blue-text">Test the next bet.</span></h2><p>Every big change brings a new question. Keep checking what works as your product grows.</p></div><UseCases /></div>
+      <div className="container"><div className="home-section-heading" data-reveal><Eyebrow>MAKE THE NEXT DECISION WITH REAL FEEDBACK</Eyebrow><h2>What do you need<br /><span className="blue-text">to validate?</span></h2><p>Demand, pricing, usability or the next feature. Start with one assumption and test it with people who fit your audience.</p></div><UseCases /></div>
     </section>
   );
 }
 
 const questions = [
+  { question: "What do you mean by pilot users?", answer: "People who fit your target audience and take part in testing your idea or product. We recruit for the problem, role or workflow you need to understand, then test with them so you can learn what matters before your next product decision." },
   { question: "What can I test?", answer: "An idea, a rough version, a live product, or a new feature. Start with one question: do people want it, can they use it, or what needs to change before launch?" },
   { question: "Do I need a finished product?", answer: "No. A rough version can be enough to learn from. If you don’t have a product link yet, join the waitlist and tell us what you’re working on when we get in touch." },
   { question: "Will every test use AI?", answer: "No. The question decides the test. AI can help explore possible problems. Real people show how they use your product. Field experts help with questions that need specialist knowledge." },
   { question: "Can a test prove that people will buy?", answer: "A test can help you check whether people care about the problem and how they respond to the product and price. It cannot promise sales. The report explains what the test shows and what still needs checking." },
-  { question: "How much does it cost, and how long does it take?", answer: "It depends on your question and who needs to test it. During early access, we agree what to test, the price, and the timing with you before any paid work starts." },
+  { question: "What am I paying for?", answer: "Finding relevant pilot users, planning the test, running it with them, and turning what we learn into findings and next steps. Scope, price and timing depend on your audience and question, and are agreed before paid work starts." },
   { question: "Can I use Playground now?", answer: "We’re running early paid tests and building toward a public launch. Join the waitlist for access updates, or send a test brief so we can review what you need. Sending a brief does not book a test." },
 ];
 export function WhyPlayground() {
@@ -122,6 +123,6 @@ export function WhyPlayground() {
 
 export function FinalCTA() {
   return (
-    <section className="closing-section"><div className="container closing-layout" data-reveal><Mark className="closing-mark" /><Eyebrow>BEFORE YOUR NEXT BIG DECISION</Eyebrow><h2>The next version<br /><span>starts with an answer.</span></h2><p>Find out what’s worth building next. Bring your question to Playground.</p><div className="home-actions"><TrackedLink href="/waitlist" className="button button-light" event="final_cta_click">Join the waitlist <Arrow /></TrackedLink><Link href="/run-a-test" className="closing-link">Have a product ready? Send a brief <Arrow /></Link></div><span className="closing-footnote">EARLY ACCESS · A CLEARER NEXT STEP</span></div></section>
+    <section className="closing-section"><div className="container closing-layout" data-reveal><Mark className="closing-mark" /><Eyebrow>YOUR NEXT USERS ARE OUT THERE</Eyebrow><h2>Find your people.<br /><span>Test your next move.</span></h2><p>From the first idea to the next feature. Reach relevant pilot users and learn before you build.</p><div className="home-actions"><TrackedLink href="/waitlist" className="button button-light" event="final_cta_click">Find my pilot users <Arrow /></TrackedLink><Link href="/run-a-test" className="closing-link">Have a product ready? Send a brief <Arrow /></Link></div><span className="closing-footnote">EARLY ACCESS · PILOT USERS + PRODUCT VALIDATION</span></div></section>
   );
 }

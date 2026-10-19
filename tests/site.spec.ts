@@ -8,6 +8,7 @@ const routes = [
   "/about",
   "/run-a-test",
   "/waitlist",
+  "/become-a-tester",
   "/privacy",
   "/terms",
 ];
@@ -21,14 +22,14 @@ const assumptionNotes = [
   "They’ll come back.",
 ];
 for (const width of widths) {
-  test(`home layout at ${width}px`, async ({ page }) => {
+  test(`home layout at ${width}px`, async ({ page }, testInfo) => {
     await page.setViewportSize({ width, height: 900 });
     const errors: string[] = [];
     page.on("pageerror", (err) => errors.push(err.message));
     expect((await page.goto("/"))?.status()).toBe(200);
     await expect(page.locator("h1")).toHaveCount(1);
     await expect(
-      page.getByRole("heading", { name: "You built it. Will people want it?" }),
+      page.getByRole("heading", { name: "Find your pilot users. Test before you launch." }),
     ).toBeVisible();
     const overflow = await page.evaluate(
       () => document.documentElement.scrollWidth > innerWidth,
@@ -36,9 +37,9 @@ for (const width of widths) {
     expect(overflow).toBe(false);
     expect(errors).toEqual([]);
     await expect(page.locator(".world-art")).toBeVisible();
-    await expect(page.locator(".hero-report-card")).toBeVisible();
-    await expect(page.locator(".hero-card-outcome")).toContainText("2 of 5");
-    await expect(page.locator(".hero-preview-caption")).toContainText("made-up examples");
+    await expect(page.locator(".hero-report-card")).toHaveCount(0);
+    await expect(page.locator(".home-hero").getByRole("link", { name: "Find my pilot users" })).toHaveAttribute("href", "/waitlist");
+    await expect(page.locator(".home-hero").getByRole("link", { name: "See what you get" })).toHaveAttribute("href", "/sample-report");
     await expect(page.getByRole("heading", { name: "Your product is full of assumptions." })).toBeVisible();
     const notes = page.locator(".home-assumptions .assumption-note");
     await expect(notes).toHaveCount(6);
@@ -55,21 +56,15 @@ for (const width of widths) {
       }).map((element) => element.textContent),
     );
     expect(clippedCopy).toEqual([]);
-    const captionOverlapsCard = await page.evaluate(() => {
-      const caption = document
-        .querySelector(".hero-preview-caption")!
-        .getBoundingClientRect();
-      return [...document.querySelectorAll(".hero-report-card, .home-hero-copy")].some((panel) => {
-        const card = panel.getBoundingClientRect();
-        return (
-          Math.min(card.right, caption.right) >
-            Math.max(card.left, caption.left) &&
-          Math.min(card.bottom, caption.bottom) >
-            Math.max(card.top, caption.top)
-        );
-      });
-    });
-    expect(captionOverlapsCard).toBe(false);
+    const alignment = await page.locator(".home-hero h1, .home-hero-lead, .home-hero .home-actions").evaluateAll((elements) =>
+      elements.map((element) => {
+        const bounds = element.getBoundingClientRect();
+        return Math.abs((bounds.left + bounds.right) / 2 - innerWidth / 2);
+      }),
+    );
+    for (const offset of alignment) expect(offset).toBeLessThan(1);
+    if (width === 375 || width === 1440)
+      await page.locator(".home-hero").screenshot({ path: testInfo.outputPath(`centered-hero-${width}.png`) });
   });
 }
 for (const route of routes) {
@@ -116,6 +111,7 @@ for (const route of [
   "/about",
   "/run-a-test",
   "/waitlist",
+  "/become-a-tester",
 ]) {
   for (const width of [375, 768, 1440]) {
     test(`${route} fits ${width}px`, async ({ page }) => {
@@ -353,9 +349,10 @@ test("home remains readable without JavaScript", async ({
   const page = await context.newPage();
   await page.goto(baseURL!);
   await expect(
-    page.getByRole("heading", { name: "You built it. Will people want it?" }),
+    page.getByRole("heading", { name: "Find your pilot users. Test before you launch." }),
   ).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Bring the question. Leave with a next move." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Your audience. Found. Matched. Tested." })).toBeVisible();
+  await expect(page.getByText("Playground finds pilot users at every stage:", { exact: true }).locator("..").getByRole("listitem")).toHaveCount(5);
   await expect(page.getByRole("heading", { name: "Your product is full of assumptions." })).toBeVisible();
   await expect(page.locator(".home-assumptions .assumption-note")).toHaveCount(6);
   await expect(page.getByRole("heading", { name: "Where do we go from here?" })).toBeVisible();
@@ -363,9 +360,16 @@ test("home remains readable without JavaScript", async ({
   await expect(page.locator("#crossroads").getByRole("link", { name: "Read the example report" })).toHaveAttribute("href", "/sample-report");
   await expect(page.locator("#crossroads")).toContainText("A made-up example");
   await expect(page.locator(".home-method-card")).toHaveCount(3);
+  const testerMarquee = page.getByRole("region", { name: "Real people from the world’s leading companies." });
+  await expect(testerMarquee.getByRole("img")).toHaveCount(11);
+  const pauseLogos = testerMarquee.getByRole("checkbox", { name: "Pause logo animation" });
+  if (await pauseLogos.isVisible()) {
+    await pauseLogos.check();
+    await expect(pauseLogos).toBeChecked();
+  }
   await expect(page.locator(".home-stage-note")).toContainText("Paid tests underway.");
   await expect(page.locator(".home-stage-note")).toContainText("Public launch coming next.");
-  await expect(page.locator(".hero-preview-caption")).toContainText("made-up examples");
+  await expect(page.locator(".hero-report-card")).toHaveCount(0);
   await expect(
     page.getByRole("link", { name: "Join the waitlist" }).first(),
   ).toBeVisible();
@@ -380,7 +384,7 @@ test("home remains readable without JavaScript", async ({
 });
 test("mobile form and report pass accessibility checks", async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 812 });
-  for (const route of ["/", "/sample-report", "/run-a-test", "/waitlist"]) {
+  for (const route of ["/", "/sample-report", "/run-a-test", "/waitlist", "/become-a-tester"]) {
     await page.goto(route);
     const audit = await new AxeBuilder({ page })
       .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
@@ -403,6 +407,7 @@ for (const route of [
   "/about",
   "/run-a-test",
   "/waitlist",
+  "/become-a-tester",
 ]) {
   test(`text at 200% remains within the mobile page: ${route}`, async ({
     page,
@@ -479,6 +484,6 @@ test("reduced motion keeps the full story visible and disables scroll progress",
       return style.opacity !== "1" || style.visibility === "hidden";
     }).length,
   )).toBe(0);
-  await expect(page.getByRole("heading", { name: "The next version starts with an answer." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Find your people. Test your next move." })).toBeVisible();
   await expect(page.getByRole("region", { name: "What this path means" })).toBeVisible();
 });

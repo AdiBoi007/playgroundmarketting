@@ -6,23 +6,23 @@ import { FinalCTA } from "@/components/home/Narrative";
 export const metadata: Metadata = {
   title: "How it works",
   description:
-    "Tell us what you’re building. Playground chooses the right test with people, AI or relevant experts, then shares findings and next steps.",
+    "Playground finds pilot users who fit your audience and tests your idea, prototype or product with them. Get feedback before your next build or launch.",
   alternates: { canonical: "/how-it-works" },
 };
 const steps = [
   {
     name: "Tell us",
-    heading: "Tell us what you’re building",
-    copy: "Share your idea, product or prototype (a rough version people can try). Tell us who it is for and what you want to find out. You can come to us before you build, while you develop a feature, or when you’re ready to release it.",
-    output: "A clear question to answer",
+    heading: "Tell us who you need to reach",
+    copy: "Share your stage, your intended audience and the assumption you want to test. Start with an idea, a prototype, an MVP or a new feature. We work with you to define who your pilot users should be and what you need to learn.",
+    output: "A target audience and a clear question",
     label: "EXAMPLE QUESTION",
     detail: "Will freelancers trust this tool to send an invoice?",
   },
   {
-    name: "Choose",
-    heading: "We choose the right test",
-    copy: "We work out what to test, how to test it, and who should take part. That may mean people trying your product, AI trying likely situations, a review by a qualified expert, or a combination. We agree the test, price and timing with you before any paid work.",
-    output: "A test that fits your question",
+    name: "Match",
+    heading: "We find your pilot users and run the test",
+    copy: "We recruit people who fit your audience, plan the tasks and test with them. That could mean exploring a problem before you build or watching people try a product. We agree the audience, test, price and timing with you before paid work starts. AI and field experts can support questions that need them.",
+    output: "Relevant pilot users and a test around your question",
     label: "EXAMPLE TEST",
     detail: "Ask freelancers to prepare and send a first invoice.",
     extra: "Watch where they stop and ask what they expected.",
@@ -44,16 +44,16 @@ export default function HowItWorks() {
         eyebrow="HOW PLAYGROUND WORKS"
         title={
           <>
-            Find the part
+            Find your people.
             <br />
-            <span className="blue-text">worth fixing.</span>
+            <span className="blue-text">Test your product.</span>
           </>
         }
       >
         <p>
-          Bring us the question holding up your next move.
+          Get access to pilot users who fit your audience.
           <br />
-          We help work out what to test, how, and who should try it.
+          We find them, test with them, and help you decide what comes next.
         </p>
         <Link href="/sample-report" className="text-link">
           See example findings <Arrow />

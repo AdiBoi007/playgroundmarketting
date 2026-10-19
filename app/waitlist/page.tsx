@@ -1,60 +1,35 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { WaitlistForm } from "@/components/WaitlistForm";
-import { Arrow, Eyebrow, Mark } from "@/components/ui/Primitives";
+import { SignupPaths } from "@/components/SignupPaths";
+import { Arrow, Eyebrow } from "@/components/ui/Primitives";
 import { hasGmailConfiguration } from "@/lib/gmail";
-import "../waitlist.css";
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
-  title: "Join the waitlist",
-  description:
-    "Join the Playground waitlist for early-access and launch updates. Find out whether people need and can use what you’re building.",
+  title: "Get early access",
+  description: "Get early access to pilot users and product testing with Playground. Validate your idea, prototype or next feature with the right people.",
   alternates: { canonical: "/waitlist" },
 };
 
-export default async function WaitlistPage() {
-  const available = await hasGmailConfiguration();
+export default function WaitlistPage() {
   return (
-    <main id="main" className="waitlist-page">
+    <main id="main" className="waitlist-page signup-page">
+      <SignupPaths active="waitlist" />
       <div className="container waitlist-layout">
         <div className="waitlist-copy">
-          <Eyebrow>PLAYGROUND / EARLY ACCESS</Eyebrow>
-          <h1>
-            Find out what
-            <br />
-            <span>people need.</span>
-          </h1>
-          <p>
-            Join the waitlist for early-access and launch updates. You can sign
-            up with an idea, a work in progress or a product that is already live.
-          </p>
-          <p className="waitlist-explainer">
-            Playground helps choose what to test, how to test it and who should
-            take part: real people, AI or relevant experts. We’re in early access,
-            with paid tests underway.
-          </p>
-          <div className="waitlist-art">
-            <Image
-              src="/brand/playground-landscape.png"
-              width={1672}
-              height={941}
-              sizes="(max-width: 767px) calc(100vw - 40px), (max-width: 1100px) 44vw, 550px"
-              alt="A winding path through a green coastal hill beneath peach clouds"
-            />
-            <span className="waitlist-art-note">
-              <Mark /> FROM YOUR FIRST IDEA TO YOUR NEXT RELEASE.
-            </span>
-          </div>
-          <Link
-            className="text-link waitlist-preview-link"
-            href="/sample-report"
-          >
-            See example findings <Arrow />
-          </Link>
+          <Eyebrow>PILOT USERS + PRODUCT VALIDATION</Eyebrow>
+          <h1>Find your<br /><span>pilot users.</span></h1>
+          <p>Reach people who fit your audience. We find your pilot users, test your assumptions with them, and help you decide what to build or change next.</p>
+          <ol className="signup-promises">
+            <li><div><strong>Tell us who you need.</strong><p>Your stage, your audience, and the assumption you want to test.</p></div></li>
+            <li><div><strong>We find them and test with them.</strong><p>Relevant pilot users and a test built around your question.</p></div></li>
+            <li><div><strong>Build on what you learn.</strong><p>Validate your next move before another build, launch or feature release.</p></div></li>
+          </ol>
+          <div className="signup-editorial"><span className="mono">BUILD WITH BETTER ANSWERS</span><p>Real people.<br />Useful feedback.<br /><strong>A clearer next move.</strong></p></div>
+          <Link className="text-link waitlist-preview-link" href="/run-a-test">Have a product ready? Send a brief <Arrow /></Link>
         </div>
-        <WaitlistForm available={available} />
+        <WaitlistForm available={hasGmailConfiguration()} />
       </div>
     </main>
   );

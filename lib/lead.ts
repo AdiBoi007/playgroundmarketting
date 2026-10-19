@@ -1,4 +1,7 @@
-export type Lead = {
+import { validateContactDetails, type ContactDetails } from "@/lib/contact";
+import { isValidWaitlistEmail } from "@/lib/waitlist";
+
+export type Lead = ContactDetails & {
   name: string;
   email: string;
   productUrl: string;
@@ -58,6 +61,7 @@ export function validateLead(
         "Please enter a full product link, like https://example.com.",
     };
   }
-  return { lead: values };
+  const contact = validateContactDetails(input);
+  if ("error" in contact) return contact;
+  return { lead: { ...values, ...contact.contact } };
 }
-import { isValidWaitlistEmail } from "@/lib/waitlist";

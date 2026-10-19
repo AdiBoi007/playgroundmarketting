@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Arrow } from "@/components/ui/Primitives";
 import { track } from "@/lib/analytics";
 import { validateLead } from "@/lib/lead";
+import { ContactFields } from "@/components/ContactFields";
 
 const unconfirmed =
   "We couldn’t confirm your brief or waitlist signup. Please try again.";
@@ -67,7 +68,7 @@ export function LeadForm({
       return;
     }
     const lead = result.lead;
-    const content = `PLAYGROUND / PRODUCT TEST BRIEF\n\nName: ${lead.name}\nEmail: ${lead.email}\nProduct: ${lead.productUrl}\n\nWHO IT IS FOR\n${lead.targetUser}\n\nWHAT TO FIND OUT\n${lead.testGoal}\n\nThis brief is saved on your device. It has not been sent to Playground.\n`;
+    const content = `PLAYGROUND / PRODUCT TEST BRIEF\n\nName: ${lead.name}\nEmail: ${lead.email}\nPhone: ${lead.phone || "Not provided"}\nSocial profile: ${lead.socialProfile || "Not provided"}\nProduct: ${lead.productUrl}\n\nWHO IT IS FOR\n${lead.targetUser}\n\nWHAT TO FIND OUT\n${lead.testGoal}\n\nThis brief is saved on your device. It has not been sent to Playground.\n`;
     const url = URL.createObjectURL(
       new Blob([content], { type: "text/plain;charset=utf-8" }),
     );
@@ -247,6 +248,7 @@ export function LeadForm({
             Describe the question that matters most to you right now.
           </span>
         </label>
+        <ContactFields disabled={status === "loading"} />
         <div className="form-honeypot" aria-hidden="true">
           <label>
             Leave this field empty

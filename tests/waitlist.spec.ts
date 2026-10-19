@@ -5,11 +5,13 @@ import { POST } from "../app/api/waitlist/route";
 import { validateWaitlist } from "../lib/waitlist";
 
 const consentLabel =
-  "I agree to receive early-access and product launch updates from Playground.";
+  "I agree to be contacted about Playground early access and launch updates.";
 const signup = {
   email: "founder@example.com",
   name: "Test Founder",
   productUrl: "https://example.com/product",
+  phone: "+61 412 345 678",
+  socialProfile: "LinkedIn: linkedin.com/in/test-founder",
   consent: true,
   source: "waitlist",
 };
@@ -51,25 +53,21 @@ async function withMockedGmail(fetch: typeof globalThis.fetch, action: () => Pro
   }
 }
 
+const formSignup = { ...signup, email: "", phone: "", contactMethod: "linkedin" };
+
 async function fillWaitlist(page: Page) {
-  await page.getByLabel("Email", { exact: true }).fill(signup.email);
   await page.getByLabel("Name (optional)", { exact: true }).fill(signup.name);
-  await page
-    .getByLabel("Product link (optional)")
-    .fill(signup.productUrl);
+  await page.getByLabel("LinkedIn profile", { exact: true }).fill(signup.socialProfile);
+  await page.getByText("Add your product", { exact: false }).click();
+  await page.getByLabel("Product link (optional)").fill(signup.productUrl);
   await page.getByRole("checkbox", { name: consentLabel }).check();
 }
 
 async function expectPreservedFields(page: Page) {
-  await expect(page.getByLabel("Email", { exact: true })).toHaveValue(
-    signup.email,
-  );
-  await expect(page.getByLabel("Name (optional)", { exact: true })).toHaveValue(
-    signup.name,
-  );
-  await expect(
-    page.getByLabel("Product link (optional)"),
-  ).toHaveValue(signup.productUrl);
+  await expect(page.getByLabel("Name (optional)", { exact: true })).toHaveValue(signup.name);
+  await expect(page.getByLabel("LinkedIn profile", { exact: true })).toHaveValue(signup.socialProfile);
+  await expect(page.getByLabel("Email", { exact: true })).toBeHidden();
+  await expect(page.getByLabel("Product link (optional)")).toHaveValue(signup.productUrl);
   await expect(page.getByRole("checkbox", { name: consentLabel })).toBeChecked();
   await expect(page.getByText("SIGNUP CONFIRMED", { exact: true })).toHaveCount(0);
 }
@@ -111,8 +109,8 @@ test("waitlist keeps completed fields after failure and permits a confirmed retr
   await expect(page.getByText("SIGNUP CONFIRMED", { exact: true })).toBeVisible();
   await expect(page.locator("main").getByRole("alert")).toHaveCount(0);
   expect(bodies).toHaveLength(2);
-  expect(bodies[0]).toMatchObject(signup);
-  expect(bodies[1]).toMatchObject(signup);
+  expect(bodies[0]).toMatchObject(formSignup);
+  expect(bodies[1]).toMatchObject(formSignup);
   expect(bodies[0].website ?? "").toBe("");
 });
 
@@ -174,11 +172,15 @@ test("the mobile waitlist can be completed and submitted with a keyboard", async
   await expect(
     page.getByRole("form", { name: "Join the Playground waitlist" }),
   ).toBeVisible();
-  await page.getByLabel("Email", { exact: true }).focus();
-  await page.keyboard.type(signup.email);
-  await page.keyboard.press("Tab");
-  await expect(page.getByLabel("Name (optional)", { exact: true })).toBeFocused();
+  await page.getByLabel("Name (optional)", { exact: true }).focus();
   await page.keyboard.type(signup.name);
+  await page.keyboard.press("Tab");
+  await expect(page.getByRole("radio", { name: "LinkedIn", exact: true })).toBeFocused();
+  await page.keyboard.press("Tab");
+  await expect(page.getByLabel("LinkedIn profile", { exact: true })).toBeFocused();
+  await page.keyboard.type(signup.socialProfile);
+  await page.keyboard.press("Tab");
+  await page.keyboard.press("Enter");
   await page.keyboard.press("Tab");
   await expect(page.getByLabel("Product link (optional)")).toBeFocused();
   await page.keyboard.type(signup.productUrl);
@@ -214,7 +216,7 @@ test("the waitlist is accessible at 375px and text at 200% stays within the page
   expect(
     await page.evaluate(() => document.documentElement.scrollWidth),
   ).toBeLessThanOrEqual(375);
-  await expect(page.getByLabel("Email", { exact: true })).toBeVisible();
+  await expect(page.getByLabel("LinkedIn profile", { exact: true })).toBeVisible();
   await expect(page.getByRole("checkbox", { name: consentLabel })).toBeVisible();
   await expect(
     page.getByRole("button", { name: "Join the waitlist", exact: true }),
@@ -227,6 +229,8 @@ test.describe("waitlist input validation", () => {
       email: "  Founder@Example.COM  ",
       name: "  Test Founder  ",
       productUrl: "  https://example.com/product  ",
+      phone: `  ${signup.phone}  `,
+      socialProfile: `  ${signup.socialProfile}  `,
       consent: true,
     });
     expect(result).toMatchObject({ signup });

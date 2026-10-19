@@ -6,7 +6,7 @@ import { FinalCTA } from "@/components/home/Narrative";
 export const metadata: Metadata = {
   title: "For startups",
   description:
-    "Find out whether people need your idea, understand an early version or can use a new feature. Playground helps founders and teams choose the right test.",
+    "Find pilot users for your idea, prototype or next feature. Playground recruits your audience and runs tests to help you validate before you build or launch.",
   alternates: { canonical: "/startups" },
 };
 const examples = [
@@ -46,16 +46,17 @@ export default function Startups() {
         }
       >
         <p>
-          Find out what people need, whether they understand your product, and
-          what happens when they try it. From a first idea to the next release.
+          Find the people your product is built for. We recruit relevant pilot
+          users and test your idea, prototype or next feature with them, so you
+          can validate the next move before you spend another sprint building.
         </p>
-        <Link className="button" href="/run-a-test">
-          Share your product <Arrow />
+        <Link className="button" href="/waitlist">
+          Find my pilot users <Arrow />
         </Link>
       </PageIntro>
       <section className="startup-manifesto">
         <div className="container">
-          <span className="mono">THE TEST DEPENDS ON THE QUESTION</span>
+          <span className="mono">YOUR AUDIENCE. YOUR ASSUMPTIONS. A REAL TEST.</span>
           <h2>
             “They’ll get it.”
             <br />
@@ -64,11 +65,12 @@ export default function Startups() {
           <div className="startup-principles">
             <div>
               <span className="mono">01 / REAL PEOPLE</span>
-              <h3>See what they do.</h3>
+              <h3>Meet your pilot users.</h3>
               <p>
-                People who fit your intended audience can try a product or talk
-                through a problem. Their actions and explanations help show
-                where the product makes sense and where it needs work.
+                We find people who fit your intended audience, recruit them
+                for a focused test, and learn from how they respond. From
+                exploring the problem to trying the product, you hear from
+                people who could actually use what you’re building.
               </p>
             </div>
             <div>

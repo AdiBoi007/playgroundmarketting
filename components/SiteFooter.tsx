@@ -10,17 +10,18 @@ export function SiteFooter() {
             playground<span className="wordmark-period">.</span>
           </Link>
           <p>
-            Find out what people need.
-            <br />Decide what to build next.
+            Find your pilot users.
+            <br />Test before your next move.
           </p>
         </div>
         <div className="footer-links">
-          <Link href="/#product">Product</Link>
+          <Link href="/#product-journey">Product</Link>
           <Link href="/how-it-works">How it works</Link>
           <Link href="/sample-report">Sample report</Link>
           <Link href="/startups">For startups</Link>
           <Link href="/about">Our approach</Link>
           <Link href="/waitlist">Join the waitlist</Link>
+          <Link href="/become-a-tester">Get paid to test</Link>
           <Link href="/run-a-test">
             Share your product <Arrow />
           </Link>

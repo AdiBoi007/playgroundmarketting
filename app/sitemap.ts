@@ -8,6 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/sample-report",
     "/about",
     "/waitlist",
+    "/become-a-tester",
     "/run-a-test",
     "/privacy",
     "/terms",

@@ -11,6 +11,9 @@ export type AnalyticsEvent =
   | "waitlist_form_started"
   | "waitlist_form_submitted"
   | "waitlist_form_error"
+  | "tester_form_started"
+  | "tester_form_submitted"
+  | "tester_form_error"
   | "use_case_open"
   | "final_cta_click";
 
