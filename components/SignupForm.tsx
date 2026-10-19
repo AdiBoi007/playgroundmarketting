@@ -126,8 +126,8 @@ export function SignupForm({ available, kind = "waitlist" }: { available: boolea
         <p>
           {isTester ? "We’ll contact you when a paid test fits your experience, with the task, session length and payment details. You decide whether to take part." : "We’ll contact you about early access to pilot users and product testing using the details you shared."}
         </p>
-        <Link href="/sample-report" className="button">
-          See example findings <Arrow />
+        <Link href="/how-it-works" className="button">
+          See how testing works <Arrow />
         </Link>
       </div>
     );

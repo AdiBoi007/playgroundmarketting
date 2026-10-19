@@ -141,7 +141,7 @@ export function Crossroads() {
                 <ol className="crossroads-next-steps">{route.steps.map((step, index) => <li key={step}><span aria-hidden="true">0{index + 1}</span><p>{step}</p></li>)}</ol>
                 <p className="crossroads-example-reason">{route.example}</p>
               </div>
-              <Link className="crossroads-report-link" href="/sample-report">Read the example report <Arrow /></Link>
+              <Link className="crossroads-report-link" href="/run-a-test">Plan a test for my product <Arrow /></Link>
             </div>
             <p className="crossroads-example-note">A made-up example, so you can see what you get back.</p>
           </div>

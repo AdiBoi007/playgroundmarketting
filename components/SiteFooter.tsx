@@ -17,7 +17,6 @@ export function SiteFooter() {
         <div className="footer-links">
           <Link href="/#product-journey">Product</Link>
           <Link href="/how-it-works">How it works</Link>
-          <Link href="/sample-report">Sample report</Link>
           <Link href="/startups">For startups</Link>
           <Link href="/about">Our approach</Link>
           <Link href="/waitlist">Join the waitlist</Link>

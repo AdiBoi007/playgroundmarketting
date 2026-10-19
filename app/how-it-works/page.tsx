@@ -55,8 +55,8 @@ export default function HowItWorks() {
           <br />
           We find them, test with them, and help you decide what comes next.
         </p>
-        <Link href="/sample-report" className="text-link">
-          See example findings <Arrow />
+        <Link href="/waitlist" className="text-link">
+          Find my pilot users <Arrow />
         </Link>
       </PageIntro>
       <section

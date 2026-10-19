@@ -75,24 +75,6 @@ export function Matching() {
   );
 }
 
-export function SamplePreview() {
-  return (
-    <section className="home-report home-section">
-      <div className="container home-report-layout">
-        <div className="home-report-copy" data-reveal><Eyebrow>WHAT YOU GET BACK</Eyebrow><h2>The finding.<br />The reason.<br /><span className="blue-text">The next move.</span></h2><p>A report you can read, share with your team, and act on. See what happened and why each change is worth trying.</p><ul><li>What people managed to do</li><li>The moment they got stuck</li><li>What to change first</li><li>What to test after the change</li></ul><TrackedLink href="/sample-report" className="button" event="hero_sample_report_click">Explore the sample report <Arrow /></TrackedLink></div>
-        <Link className="home-report-preview" href="/sample-report" aria-label="Open the example invoicing app report" data-reveal>
-          <div className="home-report-preview-top"><span>PLAYGROUND / THE FINDINGS</span><span className="example-tag">EXAMPLE</span></div>
-          <h3>Fix this<br />before launch.</h3>
-          <p>People want to check an invoice before it sends.</p>
-          <div className="home-report-count"><strong>2<span>/ 5</span></strong><div><span className="home-outcome-dots" aria-hidden="true">{[0, 1, 2, 3, 4].map(index => <i key={index} className={index < 2 ? "finished" : ""} />)}</span><span>people sent their first invoice</span></div></div>
-          <blockquote>“Will this send before I review it?”<cite>Daniel · example tester</cite></blockquote>
-          <div className="home-report-preview-foot"><span>See the people, the problem, and the fix.</span><Arrow /></div>
-        </Link>
-      </div>
-    </section>
-  );
-}
-
 export function UseCaseSection() {
   return (
     <section className="home-every-stage home-section">

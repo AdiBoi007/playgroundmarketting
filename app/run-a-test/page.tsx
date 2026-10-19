@@ -61,8 +61,8 @@ export default async function RunATest({
             <Link href="/waitlist">Join the waitlist ↗</Link>
           </div>
           <div className="lead-sidebar-note">
-            <span className="mono">WANT TO SEE AN EXAMPLE?</span>
-            <Link href="/sample-report">See what findings look like ↗</Link>
+            <span className="mono">WANT TO KNOW HOW IT WORKS?</span>
+            <Link href="/how-it-works">See how we find and test with pilot users ↗</Link>
           </div>
         </div>
         <LeadForm

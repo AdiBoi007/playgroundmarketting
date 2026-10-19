@@ -4,7 +4,6 @@ const routes = [
   "/",
   "/how-it-works",
   "/startups",
-  "/sample-report",
   "/about",
   "/run-a-test",
   "/waitlist",
@@ -39,7 +38,7 @@ for (const width of widths) {
     await expect(page.locator(".world-art")).toBeVisible();
     await expect(page.locator(".hero-report-card")).toHaveCount(0);
     await expect(page.locator(".home-hero").getByRole("link", { name: "Find my pilot users" })).toHaveAttribute("href", "/waitlist");
-    await expect(page.locator(".home-hero").getByRole("link", { name: "See what you get" })).toHaveAttribute("href", "/sample-report");
+    await expect(page.locator(".home-hero").getByRole("link", { name: "See how it works" })).toHaveAttribute("href", "/how-it-works");
     await expect(page.getByRole("heading", { name: "Your product is full of assumptions." })).toBeVisible();
     const notes = page.locator(".home-assumptions .assumption-note");
     await expect(notes).toHaveCount(6);
@@ -107,7 +106,6 @@ for (const route of routes) {
 for (const route of [
   "/how-it-works",
   "/startups",
-  "/sample-report",
   "/about",
   "/run-a-test",
   "/waitlist",
@@ -208,11 +206,11 @@ test("crossroads choices explain real next steps without changing the example fi
     await expect(crossroads).toContainText("A made-up example");
     await expect(crossroads).toContainText("2 of 5");
   }
-  const sample = crossroads.getByRole("link", { name: "Read the example report" });
-  await expect(sample).toHaveAttribute("href", "/sample-report");
-  await sample.click();
-  await expect(page).toHaveURL(/\/sample-report$/);
-  await expect(page.getByRole("article", { name: "Example product test report" })).toBeVisible();
+  const plan = crossroads.getByRole("link", { name: "Plan a test for my product" });
+  await expect(plan).toHaveAttribute("href", "/run-a-test");
+  await plan.click();
+  await expect(page).toHaveURL(/\/run-a-test$/);
+  await expect(page.getByRole("form", { name: "Share your product" })).toBeVisible();
 });
 async function fillBrief(page: import("@playwright/test").Page) {
   await page.setExtraHTTPHeaders({
@@ -357,7 +355,7 @@ test("home remains readable without JavaScript", async ({
   await expect(page.locator(".home-assumptions .assumption-note")).toHaveCount(6);
   await expect(page.getByRole("heading", { name: "Where do we go from here?" })).toBeVisible();
   await expect(page.getByRole("region", { name: "What this path means" })).toContainText("Keep the idea. Fix this part.");
-  await expect(page.locator("#crossroads").getByRole("link", { name: "Read the example report" })).toHaveAttribute("href", "/sample-report");
+  await expect(page.locator("#crossroads").getByRole("link", { name: "Plan a test for my product" })).toHaveAttribute("href", "/run-a-test");
   await expect(page.locator("#crossroads")).toContainText("A made-up example");
   await expect(page.locator(".home-method-card")).toHaveCount(3);
   const testerMarquee = page.getByRole("region", { name: "Real people from the world’s leading companies." });
@@ -382,9 +380,9 @@ test("home remains readable without JavaScript", async ({
   await expect(question.locator("..")).toContainText("join the waitlist");
   await context.close();
 });
-test("mobile form and report pass accessibility checks", async ({ page }) => {
+test("mobile pages and forms pass accessibility checks", async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 812 });
-  for (const route of ["/", "/sample-report", "/run-a-test", "/waitlist", "/become-a-tester"]) {
+  for (const route of ["/", "/run-a-test", "/waitlist", "/become-a-tester"]) {
     await page.goto(route);
     const audit = await new AxeBuilder({ page })
       .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
@@ -402,7 +400,6 @@ test("mobile form and report pass accessibility checks", async ({ page }) => {
 for (const route of [
   "/",
   "/how-it-works",
-  "/sample-report",
   "/startups",
   "/about",
   "/run-a-test",
@@ -450,27 +447,14 @@ test("native FAQs explain test limits and work with a keyboard", async ({ page }
   await expect(access.locator("..")).toContainText("does not book a test");
 });
 
-test("the example report connects observations to changes and opens native printing", async ({ page }) => {
-  await page.goto("/sample-report");
-  await expect(page.getByRole("article", { name: "Example product test report" })).toBeVisible();
-  await expect(page.locator(".sample-report-outcome-count")).toContainText("2 of 5");
-  await expect(page.locator(".sample-report-outcome-count")).toContainText("The other 3 stopped before sending.");
-  await expect(page.locator(".sample-report-person-tile")).toHaveCount(5);
-  await expect(page.locator(".sample-report-person-tile.is-finished")).toHaveCount(2);
-  await expect(page.locator(".sample-report-person-row")).toHaveCount(5);
-  await expect(page.locator(".sample-report-masthead")).toContainText("EXAMPLE REPORT");
-  const evidence = page.getByRole("navigation", { name: "Report sections" }).getByRole("link", { name: "Evidence" });
-  await evidence.focus();
-  await page.keyboard.press("Enter");
-  await expect(page).toHaveURL(/#evidence$/);
-  await expect(page.locator("#evidence")).toBeVisible();
-  await page.evaluate(() => {
-    window.print = () => { document.documentElement.dataset.printInvoked = "true"; };
-  });
-  await page.getByRole("button", { name: "Save or print report" }).click();
-  await expect(page.locator("html")).toHaveAttribute("data-print-invoked", "true");
-  await page.getByRole("link", { name: "Plan your own test" }).click();
-  await expect(page.getByLabel("What do you want to find out?")).toHaveValue("I want to find out: Check before sending");
+test("the removed sample report redirects and is absent from navigation and the sitemap", async ({ page, request }) => {
+  const response = await request.get("/sample-report", { maxRedirects: 0 });
+  expect(response.status()).toBe(308);
+  expect(response.headers().location).toBe("/how-it-works");
+  await page.goto("/");
+  await expect(page.locator('a[href*="sample-report"]')).toHaveCount(0);
+  const sitemap = await request.get("/sitemap.xml");
+  expect(await sitemap.text()).not.toContain("sample-report");
 });
 
 test("reduced motion keeps the full story visible and disables scroll progress", async ({ page }) => {

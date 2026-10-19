@@ -158,8 +158,8 @@ export function LeadForm({
           We’ve received your brief. We’ll keep you posted about early access
           and launch updates.
         </p>
-        <Link className="button" href="/sample-report">
-          See example findings <Arrow />
+        <Link className="button" href="/how-it-works">
+          See how testing works <Arrow />
         </Link>
       </div>
     );

@@ -8,7 +8,6 @@ import styles from "./SiteHeader.module.css";
 const links = [
   { href: "/#product-journey", label: "Product" },
   { href: "/how-it-works", label: "How it works" },
-  { href: "/sample-report", label: "Sample report" },
   { href: "/become-a-tester", label: "Get paid to test" },
 ];
 export function SiteHeader() {

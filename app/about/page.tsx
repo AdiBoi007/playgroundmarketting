@@ -104,14 +104,14 @@ export default function About() {
       </section>
       <section className="about-closing section container">
         <h2>
-          Why did they
+          Your next users.
           <br />
-          stop at “send”?
+          Your next answer.
         </h2>
         <div>
-          <p>A fictional invoice-app test, with findings and suggested changes.</p>
-          <Link className="button" href="/sample-report">
-            Open sample report <Arrow />
+          <p>Bring your idea, audience and next question. We’ll find the people to test it with.</p>
+          <Link className="button" href="/waitlist">
+            Find my pilot users <Arrow />
           </Link>
         </div>
       </section>

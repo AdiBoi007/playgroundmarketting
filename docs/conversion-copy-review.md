@@ -12,8 +12,8 @@ describe the site before this positioning pass.
 - **Value statement:** “Find your pilot users. Test before you launch.” The
   offer is relevant pilot-user recruitment plus product testing, from an idea
   to an existing product’s next feature.
-- **Actions:** “Find my pilot users” links to the waitlist. “See what you get” links
-  to the sample report.
+- **Actions:** “Find my pilot users” links to the waitlist. “See how it works” links
+  to the testing process.
 - **Interactive product journey:** Idea → Prototype → MVP → Launch → New
   features. Each selection explains who Playground finds, what is tested and
   what the founder learns. The diagram stays horizontal on mobile, supports
@@ -24,6 +24,7 @@ describe the site before this positioning pass.
   calls to action explain finding pilot users, testing assumptions and making
   the next product decision. Scope, price and timing are agreed upfront.
 - **Tester headline:** “Real people from the world’s leading companies.” The
+  section is labelled “The pilot user community.” The
   logos describe tester backgrounds, using the company list supplied by the
   owner.
 
@@ -151,18 +152,11 @@ the product, and understand the value before you commit to another sprint.”
 
 **Suggested action:** “Send your product brief.”
 
-### 9. Sample report: connect the artifact to the purchase
+### 9. Sample report removed
 
-**Location:** `app/sample-report/page.tsx`.
-
-Add a short, prominent line near the report introduction:
-
-“The people. The friction. The changes to test next. See what comes back from
-a Playground test.”
-
-Keep the report clearly labelled as a fictional example. A secondary “Plan a
-test for your product” link can sit beside the introduction, while the existing
-printing and evidence links remain useful deeper in the report.
+The sample report page and its navigation links have been removed. Old URLs
+redirect to `/how-it-works`. Calls to action now lead to the process, waitlist or
+product brief instead.
 
 ### 10. About: add the people and the method
 

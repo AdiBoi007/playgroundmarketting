@@ -5,7 +5,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "",
     "/how-it-works",
     "/startups",
-    "/sample-report",
     "/about",
     "/waitlist",
     "/become-a-tester",
@@ -15,6 +14,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ].map((path) => ({
     url: `${siteOrigin}${path}`,
     changeFrequency: "monthly",
-    priority: path === "" ? 1 : path === "/sample-report" ? 0.9 : 0.7,
+    priority: path === "" ? 1 : 0.7,
   }));
 }

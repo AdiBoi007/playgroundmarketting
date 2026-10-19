@@ -1,13 +1,11 @@
 "use client";
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
-import { track } from "@/lib/analytics";
 
 export function Enhancements() {
   const pathname = usePathname();
   const progress = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    if (pathname === "/sample-report") track("sample_report_open");
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
     const targets = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
     let observer: IntersectionObserver | undefined;

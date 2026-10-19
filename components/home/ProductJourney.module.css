@@ -5,7 +5,10 @@
 .canvas { min-width: 0; border: 1px solid var(--ink); border-radius: 14px; background: #fffdf6; box-shadow: 7px 8px 0 #123b3f0d; overflow: hidden; }
 .diagramLabel { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 24px 32px 4px; font-size: .75rem; color: var(--muted); }
 .diagramLabel > span:first-child { font-size: .625rem; letter-spacing: .06em; }
-.diagramLabel > span:last-child { display: flex; align-items: center; gap: 12px; }
+.rotationControls { display: flex; align-items: center; justify-content: end; gap: 20px; }
+.rotationButton { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; min-width: 86px; padding: 8px 12px; border: 1px solid #123b3f40; border-radius: 24px; background: #edf0e4; color: var(--ink); font-size: .75rem; line-height: 1.5; }
+.rotationButton:hover { border-color: var(--ink); }
+.rotationButton > span { font-size: .875rem; }
 .rail { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); position: relative; isolation: isolate; margin: 22px 26px 0; }
 .rail::before, .rail::after { content: ""; position: absolute; height: 2px; top: 44px; left: 10%; z-index: -1; }
 .rail::before { width: 80%; background: #c9d2bf; }
@@ -21,8 +24,9 @@
 .stageName { font-size: 1rem; font-weight: 750; margin-top: 4px; overflow-wrap: anywhere; }
 .repeat { display: flex; align-items: center; justify-content: center; gap: 10px; text-align: center; font-size: .75rem; color: var(--muted); padding: 16px 20px 25px; }
 .repeat > span { font-size: 1.35rem; line-height: 1; color: var(--blue-dark); }
-.panel { display: grid; grid-template-columns: 1.2fr 1fr; border-top: 1px solid var(--line); }
-.panel[hidden] { display: none; }
+.panels { display: grid; }
+.panel { grid-area: 1 / 1; display: grid; grid-template-columns: 1.2fr 1fr; grid-template-rows: 1fr auto auto; border-top: 1px solid var(--line); }
+.panel[hidden] { display: grid; visibility: hidden; pointer-events: none; }
 .panelCopy { padding: 35px 36px; }
 .label { font: .625rem/1.7 var(--font-mono), monospace; letter-spacing: .055em; }
 .panelCopy h3 { font-size: clamp(1.75rem, 2.8vw, 2.5rem); line-height: 1.16; letter-spacing: -.045em; margin-top: 15px; max-width: 480px; }
@@ -60,7 +64,8 @@
   .heading > p { font-size: .9375rem; }
   .canvas { border-radius: 9px; box-shadow: 4px 5px 0 #123b3f0d; }
   .diagramLabel { padding: 20px 16px 2px; gap: 15px; flex-wrap: wrap; }
-  .diagramLabel > span:last-child { font-size: .6875rem; }
+  .rotationControls { width: 100%; justify-content: space-between; gap: 12px; font-size: .6875rem; }
+  .rotationButton { min-width: 80px; }
   .rail { margin: 20px 5px 0; }
   .rail::before, .rail::after { top: 32px; }
   .stage { padding: 10px 2px; }
@@ -69,7 +74,7 @@
   .stepNumber { margin-top: 12px; }
   .stageName { font-size: .75rem; }
   .repeat { font-size: .6875rem; padding: 12px 16px 20px; }
-  .panel { grid-template-columns: minmax(0, 1fr); }
+  .panel { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto auto 1fr auto; }
   .panelCopy, .audience, .test, .decision, .action { padding: 24px 20px; }
   .panelCopy h3 { font-size: 1.9rem; }
   .panelCopy > p { font-size: .875rem; }
@@ -78,4 +83,4 @@
   .footnote { font-size: .8125rem; max-width: 260px; margin-inline: auto; line-height: 1.8; }
 }
 @media (prefers-reduced-motion: reduce) { .rail::after, .icon { transition: none; } }
-@media print { .panel[hidden] { display: grid; } .action { display: none; } }
+@media print { .panels { display: block; } .panel[hidden] { visibility: visible; } .action, .rotationControls { display: none; } }

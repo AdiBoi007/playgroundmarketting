@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRef, useState, type CSSProperties, type KeyboardEvent } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore, type CSSProperties, type KeyboardEvent } from "react";
 import { Arrow, Avatar, Eyebrow } from "@/components/ui/Primitives";
 import styles from "./ProductJourney.module.css";
 
@@ -68,9 +68,49 @@ const stages = [
   },
 ] as const;
 
+const motionQuery = "(prefers-reduced-motion: reduce)";
+function subscribeMotion(change: () => void) {
+  const media = window.matchMedia(motionQuery);
+  media.addEventListener("change", change);
+  return () => media.removeEventListener("change", change);
+}
+function getReducedMotion() { return window.matchMedia(motionQuery).matches; }
+function getServerReducedMotion() { return true; }
+
 export function ProductJourney() {
   const [active, setActive] = useState(0);
+  const [rotation, setRotation] = useState<"auto" | "playing" | "paused">("auto");
+  const [hovered, setHovered] = useState(false);
+  const [inView, setInView] = useState(false);
+  const reducedMotion = useSyncExternalStore(subscribeMotion, getReducedMotion, getServerReducedMotion);
+  const playing = rotation === "playing" || (rotation === "auto" && !reducedMotion);
+  const rotating = playing && !hovered && inView;
+  const section = useRef<HTMLElement>(null);
+  const control = useRef<HTMLButtonElement>(null);
   const buttons = useRef<Array<HTMLButtonElement | null>>([]);
+
+  useEffect(() => {
+    if (!("IntersectionObserver" in window)) {
+      const frame = requestAnimationFrame(() => setInView(true));
+      return () => cancelAnimationFrame(frame);
+    }
+    const observer = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), { threshold: .1 });
+    if (section.current) observer.observe(section.current);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!rotating) return;
+    const timer = window.setInterval(() => {
+      if (!document.hidden) setActive(index => (index + 1) % stages.length);
+    }, 8_000);
+    return () => window.clearInterval(timer);
+  }, [rotating]);
+
+  function select(index: number) {
+    setRotation("paused");
+    setActive(index);
+  }
 
   function navigate(event: KeyboardEvent<HTMLButtonElement>, index: number) {
     const next = event.key === "ArrowRight" ? (index + 1) % stages.length
@@ -78,24 +118,35 @@ export function ProductJourney() {
         : event.key === "Home" ? 0 : event.key === "End" ? stages.length - 1 : undefined;
     if (next === undefined) return;
     event.preventDefault();
-    setActive(next);
+    select(next);
     buttons.current[next]?.focus();
   }
 
   return (
-    <section id="product-journey" className={styles.section} aria-labelledby="journey-title">
+    <section ref={section} id="product-journey" className={styles.section} aria-labelledby="journey-title">
       <div className="container">
         <div className={styles.heading}>
           <div><Eyebrow>YOUR PRODUCT. EVERY STAGE.</Eyebrow><h2 id="journey-title">Wherever you are,<br /><span className="blue-text">your pilot users are out there.</span></h2></div>
           <p>We find them. You learn from them. From the first idea to the next feature, test your assumptions with people your product is built for.</p>
         </div>
-        <div className={styles.canvas}>
-          <div className={styles.diagramLabel}><span className="mono">THE PRODUCT JOURNEY</span><span>Choose your stage <span aria-hidden="true">↓</span></span></div>
+        <div className={styles.canvas} data-rotating={rotating}
+          onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
+          onFocusCapture={event => { if (!control.current?.contains(event.target)) setRotation("paused"); }}>
+          <div className={styles.diagramLabel}>
+            <span className="mono">THE PRODUCT JOURNEY</span>
+            <div className={styles.rotationControls}>
+              <span>Choose a stage or watch it rotate</span>
+              <button ref={control} type="button" className={styles.rotationButton} aria-label={playing ? "Pause stage rotation" : "Play stage rotation"}
+                onClick={() => setRotation(playing ? "paused" : "playing")}>
+                <span aria-hidden="true">{playing ? "Ⅱ" : "▶"}</span>{playing ? "Pause" : "Play"}
+              </button>
+            </div>
+          </div>
           <div className={styles.rail} role="tablist" aria-label="Your product stage" style={{ "--journey-progress": `${active * 20}%` } as CSSProperties}>
             {stages.map((stage, index) => (
               <button key={stage.id} ref={node => { buttons.current[index] = node; }} type="button" role="tab"
                 id={`journey-tab-${stage.id}`} aria-controls={`journey-panel-${stage.id}`} aria-selected={active === index}
-                tabIndex={active === index ? 0 : -1} onClick={() => setActive(index)} onKeyDown={event => navigate(event, index)} className={styles.stage}>
+                tabIndex={active === index ? 0 : -1} onClick={() => select(index)} onKeyDown={event => navigate(event, index)} className={styles.stage}>
                 <span className={styles.icon} aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">{stage.paths.map(path => <path d={path} key={path} />)}</svg></span>
                 <span className={styles.stepNumber} aria-hidden="true">0{index + 1}</span>
                 <span className={styles.stageName}>{stage.name}</span>
@@ -103,8 +154,9 @@ export function ProductJourney() {
             ))}
           </div>
           <p className={styles.repeat}><span aria-hidden="true">↻</span> Find people. Test. Learn. Improve. Repeat.</p>
+          <div className={styles.panels} aria-live="off">
           {stages.map((stage, index) => (
-            <div key={stage.id} className={styles.panel} id={`journey-panel-${stage.id}`} role="tabpanel" aria-labelledby={`journey-tab-${stage.id}`} tabIndex={0} hidden={active !== index}>
+            <div key={stage.id} className={styles.panel} id={`journey-panel-${stage.id}`} role="tabpanel" aria-labelledby={`journey-tab-${stage.id}`} tabIndex={active === index ? 0 : -1} hidden={active !== index} inert={active !== index}>
               <div className={styles.panelCopy}>
                 <span className={styles.label}>{stage.label}</span>
                 <h3>{stage.title}</h3>
@@ -121,6 +173,7 @@ export function ProductJourney() {
               <div className={styles.action}><Link className="button" href={"href" in stage ? stage.href : `/run-a-test?focus=${encodeURIComponent(stage.question)}`}>{stage.cta} <Arrow /></Link><span>{index === 0 ? "Start with an idea. No product link needed." : "Audience, test, price and timing agreed before we start."}</span></div>
             </div>
           ))}
+          </div>
           <noscript><div className={styles.fallback}><p>Playground finds pilot users at every stage:</p><ul>{stages.map(stage => <li key={stage.id}><strong>{stage.name}:</strong> {stage.test}</li>)}</ul></div></noscript>
         </div>
         <p className={styles.footnote}>First test the assumption. Then make your next move.</p>

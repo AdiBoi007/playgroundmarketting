@@ -1,6 +1,63 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
+test("the product journey rotates in view, loops without page jumps, and pauses for reading and manual choices", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.setViewportSize({ width: 1440, height: 700 });
+  await page.clock.install();
+  await page.goto("/");
+  const journey = page.locator("#product-journey");
+  const canvas = journey.locator("[data-rotating]");
+  await expect(canvas).toHaveAttribute("data-rotating", "false");
+  await page.clock.fastForward(16_000);
+  await expect(journey.getByRole("tab", { name: "Idea", exact: true })).toHaveAttribute("aria-selected", "true");
+  await journey.scrollIntoViewIfNeeded();
+  await page.mouse.move(0, 0);
+  await expect(canvas).toHaveAttribute("data-rotating", "true");
+  const initialHeight = (await canvas.boundingBox())!.height;
+  for (const name of ["Prototype", "MVP", "Launch", "New features", "Idea"]) {
+    await page.clock.fastForward(8_000);
+    await expect(journey.getByRole("tab", { name, exact: true })).toHaveAttribute("aria-selected", "true");
+    expect(Math.abs((await canvas.boundingBox())!.height - initialHeight)).toBeLessThan(1);
+  }
+  await journey.getByRole("tab", { name: "Prototype", exact: true }).hover();
+  await expect(canvas).toHaveAttribute("data-rotating", "false");
+  await page.clock.fastForward(16_000);
+  await expect(journey.getByRole("tab", { name: "Idea", exact: true })).toHaveAttribute("aria-selected", "true");
+  await page.mouse.move(0, 0);
+  await expect(canvas).toHaveAttribute("data-rotating", "true");
+  await journey.getByRole("button", { name: "Pause stage rotation", exact: true }).click();
+  await page.mouse.move(0, 0);
+  await page.clock.fastForward(16_000);
+  await expect(journey.getByRole("tab", { name: "Idea", exact: true })).toHaveAttribute("aria-selected", "true");
+  await journey.getByRole("button", { name: "Play stage rotation", exact: true }).click();
+  await page.mouse.move(0, 0);
+  await expect(canvas).toHaveAttribute("data-rotating", "true");
+  await page.clock.fastForward(8_000);
+  await expect(journey.getByRole("tab", { name: "Prototype", exact: true })).toHaveAttribute("aria-selected", "true");
+  await journey.getByRole("tab", { name: "Launch", exact: true }).click();
+  await page.mouse.move(0, 0);
+  await page.clock.fastForward(16_000);
+  await expect(journey.getByRole("tab", { name: "Launch", exact: true })).toHaveAttribute("aria-selected", "true");
+  await expect(journey.getByRole("button", { name: "Play stage rotation", exact: true })).toBeVisible();
+});
+
+test("reduced motion keeps stages still until the visitor explicitly starts rotation", async ({ page }) => {
+  await page.clock.install();
+  await page.goto("/");
+  const journey = page.locator("#product-journey");
+  await journey.scrollIntoViewIfNeeded();
+  await page.mouse.move(0, 0);
+  await expect(journey.locator("[data-rotating]")).toHaveAttribute("data-rotating", "false");
+  await page.clock.fastForward(24_000);
+  await expect(journey.getByRole("tab", { name: "Idea", exact: true })).toHaveAttribute("aria-selected", "true");
+  await journey.getByRole("button", { name: "Play stage rotation", exact: true }).click();
+  await page.mouse.move(0, 0);
+  await expect(journey.locator("[data-rotating]")).toHaveAttribute("data-rotating", "true");
+  await page.clock.fastForward(8_000);
+  await expect(journey.getByRole("tab", { name: "Prototype", exact: true })).toHaveAttribute("aria-selected", "true");
+});
+
 test("the product journey supports keyboard navigation and carries the chosen question into a brief", async ({ page }) => {
   await page.goto("/");
   const journey = page.locator("#product-journey");

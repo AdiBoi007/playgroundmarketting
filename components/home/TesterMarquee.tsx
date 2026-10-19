@@ -23,7 +23,7 @@ export function TesterMarquee() {
         <div className={styles.intro}>
           <span className={styles.eyebrow}>
             <span className={styles.dot} aria-hidden="true" />
-            THE TESTER COMMUNITY
+            THE PILOT USER COMMUNITY
           </span>
           <h2 id="tester-companies-title">Real people from<br /><span>the world’s leading companies.</span></h2>
         </div>
@@ -48,7 +48,7 @@ export function TesterMarquee() {
             <ul
               key={String(duplicate)}
               className={styles.logos}
-              aria-label={duplicate ? undefined : "Companies our testers come from"}
+              aria-label={duplicate ? undefined : "Companies our pilot users come from"}
               aria-hidden={duplicate || undefined}
             >
               {companies.map((company) => (

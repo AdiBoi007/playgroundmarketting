@@ -1,10 +1,9 @@
 export type AnalyticsEvent =
   | "hero_run_test_click"
   | "hero_waitlist_click"
-  | "hero_sample_report_click"
+  | "hero_how_it_works_click"
   | "nav_run_test_click"
   | "nav_waitlist_click"
-  | "sample_report_open"
   | "lead_form_started"
   | "lead_form_submitted"
   | "lead_form_error"
