@@ -7,19 +7,19 @@ import { Arrow, Eyebrow } from "@/components/ui/Primitives";
 const routes = [
   {
     id: "launch", label: "Launch", title: "Take the next step.",
-    description: "When the important questions are answered, start with a small release. Keep learning as more people try it.",
+    description: "If pilot customers can use your product and find it useful, release it to a small group first.",
     example: "The invoice example needs a change first. Three people stopped before sending.",
-    steps: ["Start with the people you tested for.", "Keep checking what happens after launch."],
+    steps: ["Invite the pilot customers who tested it.", "Watch where new customers get stuck."],
   },
   {
     id: "change", label: "Make a change", title: "Keep the idea. Fix this part.",
-    description: "You don’t always need a new idea. Sometimes, you need a better first step.",
+    description: "If pilot customers get stuck, fix that part before you launch.",
     example: "Let people review before sending. Then check whether the change helps them finish.",
     steps: ["Let them check the invoice before it sends.", "Explain what access you need, and why."],
   },
   {
     id: "rethink", label: "Rethink it", title: "Find a better starting point.",
-    description: "If people don’t need what you’re building, revisit the problem or who it’s for before building more.",
+    description: "If pilot customers don’t need the product, check who it helps and what problem it solves before building more.",
     example: "The invoice example points to a smaller fix. It does not show that the whole idea needs replacing.",
     steps: ["Find out who needs the problem solved.", "Try a simpler idea before building more."],
   },
@@ -116,8 +116,8 @@ export function Crossroads() {
     <section id="crossroads" className="crossroads-section" aria-labelledby="crossroads-title">
       <div className="container">
         <div className="crossroads-heading" data-reveal>
-          <div><Eyebrow>A CLEARER WAY FORWARD</Eyebrow><h2 id="crossroads-title">Where do we<br />go from here?</h2></div>
-          <p>Launch it. Improve it. Take it somewhere new.<br />Know why you’re choosing.</p>
+          <div><Eyebrow>AFTER CUSTOMER TESTING</Eyebrow><h2 id="crossroads-title">Know what to<br />do next.</h2></div>
+          <p>Use feedback from pilot customers to decide:<br />launch, fix a problem, or rethink the idea.</p>
         </div>
         <div className="crossroads-layout">
           <div className="crossroads-world" data-path={selected} data-reveal>
@@ -127,14 +127,14 @@ export function Crossroads() {
                 {routes.map(item => <button key={item.id} type="button" className={`crossroads-choice choice-${item.id}`} aria-label={item.label} aria-pressed={selected === item.id} aria-controls="crossroads-detail" onClick={() => setSelected(item.id)}><span className="crossroads-full-label">{item.label}</span>{item.id === "change" && <span className="crossroads-short-label" aria-hidden="true">Change</span>}</button>)}
               </div>
             </div>
-            <p className="crossroads-art-note">Not every idea needs a launch.<br /><strong>This one needs a better first step.</strong></p>
+            <p className="crossroads-art-note">Choose a sign to explore your next step.</p>
           </div>
           <div className="crossroads-example" data-reveal>
             <div className="crossroads-card" data-path={selected}>
-              <div className="crossroads-card-top"><span>PLAYGROUND / THE NEXT MOVE</span><span>EXAMPLE</span></div>
+              <div className="crossroads-card-top"><span>AN INVOICING APP</span><span>EXAMPLE</span></div>
               <div className="crossroads-verdict-row">
                 <span className="crossroads-stamp">{route.label}<Arrow /></span>
-                <div className="crossroads-finding"><strong>2 of 5</strong><span>sent an invoice.<br />Three stopped.</span></div>
+                <div className="crossroads-finding"><strong>2 of 5</strong><span>people sent an invoice.<br />Three stopped before sending.</span></div>
               </div>
               <div id="crossroads-detail" className="crossroads-detail" role="region" aria-label="What this path means" aria-live="polite" aria-atomic="true">
                 <div className="crossroads-detail-intro"><h3>{route.title}</h3><p>{route.description}</p></div>

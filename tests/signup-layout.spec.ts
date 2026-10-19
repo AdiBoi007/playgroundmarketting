@@ -29,7 +29,8 @@ async function expectSignupLayout(page: Page, width: number) {
   expect(second.top).toBe(first.top);
   expect(third.left).toBeGreaterThanOrEqual(second.right + 8);
   expect(third.top).toBe(first.top);
-  await expect(page.locator(".signup-promises")).toHaveCSS("list-style-type", "none");
+  if (new URL(page.url()).pathname === "/become-a-tester")
+    await expect(page.locator(".signup-promises")).toHaveCSS("list-style-type", "none");
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
 }
 

@@ -5,4 +5,4 @@ export const siteOrigin = (
     : "https://tryplayground.net")
 ).replace(/\/$/, "");
 export const siteDescription =
-  "Find your pilot users and test before you launch. Playground recruits people who fit your audience and tests your idea, prototype, MVP or next feature with them.";
+  "Find your pilot customers and test before you launch. Playground recruits people who fit your audience and tests your idea, first version or next feature with them.";

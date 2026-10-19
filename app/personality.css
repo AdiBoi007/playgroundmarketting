@@ -5,7 +5,7 @@
 .home-assumptions .assumption-note { padding: 23px 25px 19px; min-height: 143px; box-shadow: 3px 5px 0 #123b3f0b, 0 9px 20px #123b3f07; }
 .home-assumptions .assumption-note::after { content: ""; position: absolute; right: 0; bottom: 0; width: 15px; height: 15px; background: linear-gradient(135deg, #123b3f00 49%, #123b3f0c 50%); pointer-events: none; }
 .home-assumptions .assumption-note .mono { font-size: .625rem; letter-spacing: .055em; opacity: 1; color: #4c6261; }
-.home-assumptions .assumption-note p { margin-top: 16px; font-size: 1.125rem; line-height: 1.35; }
+.home-assumptions .assumption-note p { margin-top: 18px; font-size: 1.5rem; font-weight: 750; letter-spacing: -.045em; line-height: 1.25; }
 .home-assumptions .note-unverified { display: flex; justify-content: space-between; align-items: center; margin-top: 19px; font-size: .625rem; letter-spacing: .055em; opacity: 1; color: #4c6261; }
 .home-assumptions .note-unverified > span { font-size: 1rem; }
 .home-assumptions .note-tack { width: 7px; height: 7px; box-shadow: 1px 2px 0 #123b3f30; }
@@ -58,7 +58,7 @@
   .home-assumptions .assumptions-heading > p { margin-top: 22px; }
   .home-assumptions .assumption-wall { grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr)); gap: 20px 17px; margin-top: 28px; padding-inline: 3px; }
   .home-assumptions .assumption-note { padding: 20px 15px 17px; min-height: 142px; }
-  .home-assumptions .assumption-note p { font-size: .9375rem; line-height: 1.5; margin-top: 13px; }
+  .home-assumptions .assumption-note p { font-size: 1.2rem; line-height: 1.35; margin-top: 13px; }
   .home-assumptions .note-unverified { margin-top: 16px; }
   .home-assumptions .assumptions-bottom { gap: 24px; margin-top: 28px; flex-wrap: wrap; }
   .home-assumptions .assumptions-bottom > p { font-size: 1.45rem; }

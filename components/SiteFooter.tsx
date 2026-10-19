@@ -10,15 +10,13 @@ export function SiteFooter() {
             playground<span className="wordmark-period">.</span>
           </Link>
           <p>
-            Find your pilot users.
+            Find your pilot customers.
             <br />Test before your next move.
           </p>
         </div>
         <div className="footer-links">
           <Link href="/#product-journey">Product</Link>
-          <Link href="/how-it-works">How it works</Link>
-          <Link href="/startups">For startups</Link>
-          <Link href="/about">Our approach</Link>
+          <Link href="/about">Why Playground</Link>
           <Link href="/waitlist">Join the waitlist</Link>
           <Link href="/become-a-tester">Get paid to test</Link>
           <Link href="/run-a-test">
@@ -28,7 +26,6 @@ export function SiteFooter() {
       </div>
       <div className="container footer-bottom">
         <span>© {new Date().getFullYear()} Playground</span>
-        <span>Early access. Paid tests underway.</span>
         <div>
           <Link href="/privacy">Privacy</Link>
           <Link href="/terms">Terms</Link>

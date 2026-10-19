@@ -23,7 +23,7 @@ export function Hero() {
           <p className="home-hero-lead">Get your idea in front of the people it’s built for. Playground finds your pilot users and tests with them, from your first idea to your next feature.</p>
           <div className="home-actions">
             <TrackedLink href="/waitlist" className="button" event="hero_waitlist_click">Find my pilot users <Arrow /></TrackedLink>
-            <TrackedLink href="/how-it-works" className="text-link" event="hero_how_it_works_click">See how it works <Arrow /></TrackedLink>
+            <TrackedLink href="/#how-it-works" className="text-link" event="hero_how_it_works_click">See how it works <Arrow /></TrackedLink>
           </div>
           <p className="home-hero-stage">Reach the right people. Test the assumption. Know what to build next.</p>
         </div>

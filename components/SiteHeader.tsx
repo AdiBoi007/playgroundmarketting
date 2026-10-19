@@ -7,7 +7,7 @@ import { track } from "@/lib/analytics";
 import styles from "./SiteHeader.module.css";
 const links = [
   { href: "/#product-journey", label: "Product" },
-  { href: "/how-it-works", label: "How it works" },
+  { href: "/about", label: "Why Playground" },
   { href: "/become-a-tester", label: "Get paid to test" },
 ];
 export function SiteHeader() {
@@ -80,8 +80,6 @@ export function SiteHeader() {
         >
           {[
             ...links,
-            { href: "/startups", label: "For startups" },
-            { href: "/about", label: "Our approach" },
             { href: "/run-a-test", label: "Share your product" },
           ].map((link) => (
             <Link

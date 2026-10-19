@@ -8,7 +8,7 @@ import { hasGmailConfiguration } from "@/lib/gmail";
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Get paid to test",
-  description: "Get paid to try new products and share your honest feedback. Apply for Playground testing opportunities with your LinkedIn profile or phone number.",
+  description: "Get paid to try new products and share your honest feedback. Apply for Playground testing opportunities with your LinkedIn profile, phone number or email.",
   alternates: { canonical: "/become-a-tester" },
 };
 
@@ -20,14 +20,13 @@ export default function BecomeATester() {
         <div className="waitlist-copy">
           <Eyebrow>PLAYGROUND / PAID PRODUCT TESTING</Eyebrow>
           <h1>Get paid<br /><span>to test.</span></h1>
-          <p>Try new products. Share your honest take. Earn for your time. Help teams build something better, using the experience you already have.</p>
+          <p>Try new products, share your honest feedback, and get paid for your time.</p>
           <ol className="signup-promises">
             <li><div><strong>Tell us a little about yourself.</strong><p>What you do, what you use, and how to reach you.</p></div></li>
             <li><div><strong>Choose a paid test that fits.</strong><p>We’ll share the task, session length and payment before you decide.</p></div></li>
             <li><div><strong>Test it. Tell it like it is. Get paid.</strong><p>Share what works and what doesn’t. Earn for your time and feedback.</p></div></li>
           </ol>
-          <div className="signup-editorial"><span className="mono">YOUR OPINION HAS VALUE</span><p>New products.<br />Honest feedback.<br /><strong>Paid for your time.</strong></p></div>
-          <Link className="text-link waitlist-preview-link" href="/how-it-works">See how Playground works <Arrow /></Link>
+          <Link className="text-link waitlist-preview-link" href="/#how-it-works">See how Playground works <Arrow /></Link>
         </div>
         <SignupForm available={hasGmailConfiguration()} kind="tester" />
       </div>

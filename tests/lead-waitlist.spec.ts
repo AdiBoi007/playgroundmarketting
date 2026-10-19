@@ -10,9 +10,9 @@ import {
 
 const consentLabel =
   "Add me to the Playground waitlist for early-access and launch updates.";
-const confirmation = "BRIEF RECEIVED / WAITLIST CONFIRMED";
+const confirmation = "REQUEST RECEIVED / WAITLIST CONFIRMED";
 const unconfirmed =
-  "We couldn’t confirm your brief or waitlist signup. Please try again.";
+  "We couldn’t confirm your request or waitlist signup. Please try again.";
 const brief = {
   name: "Zoë Founder",
   email: "founder@example.com",
@@ -115,10 +115,10 @@ test("a failed test request keeps the full brief and explicit waitlist consent",
   });
   await page.goto("/run-a-test");
   await fillBrief(page);
-  await page.getByRole("button", { name: "Send your brief", exact: true }).click();
+  await page.getByRole("button", { name: "Request a test", exact: true }).click();
   await expect(page.locator("main").getByRole("alert")).toContainText(unconfirmed);
   await expectPreservedBrief(page);
-  await expect(page.getByRole("button", { name: "Send your brief", exact: true })).toBeEnabled();
+  await expect(page.getByRole("button", { name: "Request a test", exact: true })).toBeEnabled();
   expect(payload).toMatchObject(submission);
 });
 
@@ -133,7 +133,7 @@ for (const { status, body } of [
     await page.route("**/api/lead", (route) => route.fulfill({ status, json: body }));
     await page.goto("/run-a-test");
     await fillBrief(page);
-    await page.getByRole("button", { name: "Send your brief", exact: true }).click();
+    await page.getByRole("button", { name: "Request a test", exact: true }).click();
     await expect(page.locator("main").getByRole("alert")).toContainText(unconfirmed);
     await expectPreservedBrief(page);
   });
@@ -149,9 +149,9 @@ test("saving a complete brief works without waitlist consent and never posts it"
   await fillBrief(page, false);
   await expect(page.getByRole("checkbox", { name: consentLabel })).not.toBeChecked();
   const downloadPromise = page.waitForEvent("download");
-  await page.getByRole("button", { name: "Save a copy of your brief" }).click();
+  await page.getByRole("button", { name: "Save a copy of your request" }).click();
   const download = await downloadPromise;
-  expect(download.suggestedFilename()).toBe("playground-test-brief.txt");
+  expect(download.suggestedFilename()).toBe("playground-test-request.txt");
   const stream = await download.createReadStream();
   expect(stream).not.toBeNull();
   const chunks: Buffer[] = [];
@@ -173,9 +173,9 @@ test("mobile test-request confirmation is focused and preserves success when ana
   );
   await page.goto("/run-a-test");
   await fillBrief(page);
-  await page.getByRole("button", { name: "Send your brief", exact: true }).focus();
+  await page.getByRole("button", { name: "Request a test", exact: true }).focus();
   await page.keyboard.press("Enter");
-  const success = page.getByRole("status", { name: "You’re on the waitlist." });
+  const success = page.getByRole("status", { name: "Your test request is in." });
   await expect(success).toContainText(confirmation);
   await expect(success).toBeFocused();
   await expect(page.locator("main").getByRole("alert")).toHaveCount(0);
@@ -189,7 +189,7 @@ test("the mobile form and its error remain accessible with text at 200%", async 
   await page.goto("/run-a-test");
   await fillBrief(page);
   await page.addStyleTag({ content: "html{font-size:200%}" });
-  await page.getByRole("button", { name: "Send your brief", exact: true }).click();
+  await page.getByRole("button", { name: "Request a test", exact: true }).click();
   await expect(page.locator("main").getByRole("alert")).toContainText(unconfirmed);
   await expectPreservedBrief(page);
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(375);

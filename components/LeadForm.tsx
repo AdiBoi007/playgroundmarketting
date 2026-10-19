@@ -7,8 +7,8 @@ import { validateLead } from "@/lib/lead";
 import { ContactFields } from "@/components/ContactFields";
 
 const unconfirmed =
-  "We couldn’t confirm your brief or waitlist signup. Please try again.";
-const briefFields = [
+  "We couldn’t confirm your request or waitlist signup. Please try again.";
+const requestFields = [
   "name",
   "email",
   "productUrl",
@@ -48,9 +48,9 @@ export function LeadForm({
       started.current = true;
     }
   };
-  const saveBrief = () => {
+  const saveRequest = () => {
     if (!form.current) return;
-    for (const name of briefFields) {
+    for (const name of requestFields) {
       const field = form.current.elements.namedItem(name);
       if (
         !(
@@ -68,13 +68,13 @@ export function LeadForm({
       return;
     }
     const lead = result.lead;
-    const content = `PLAYGROUND / PRODUCT TEST BRIEF\n\nName: ${lead.name}\nEmail: ${lead.email}\nPhone: ${lead.phone || "Not provided"}\nSocial profile: ${lead.socialProfile || "Not provided"}\nProduct: ${lead.productUrl}\n\nWHO IT IS FOR\n${lead.targetUser}\n\nWHAT TO FIND OUT\n${lead.testGoal}\n\nThis brief is saved on your device. It has not been sent to Playground.\n`;
+    const content = `PLAYGROUND / PRODUCT TEST REQUEST\n\nName: ${lead.name}\nEmail: ${lead.email}\nPhone: ${lead.phone || "Not provided"}\nSocial profile: ${lead.socialProfile || "Not provided"}\nProduct: ${lead.productUrl}\n\nWHO IT IS FOR\n${lead.targetUser}\n\nWHAT TO FIND OUT\n${lead.testGoal}\n\nThis request is saved on your device. It has not been sent to Playground.\n`;
     const url = URL.createObjectURL(
       new Blob([content], { type: "text/plain;charset=utf-8" }),
     );
     const anchor = document.createElement("a");
     anchor.href = url;
-    anchor.download = "playground-test-brief.txt";
+    anchor.download = "playground-test-request.txt";
     anchor.click();
     URL.revokeObjectURL(url);
   };
@@ -92,7 +92,7 @@ export function LeadForm({
     if (!input.consent) {
       setStatus("error");
       setMessage(
-        "Please agree to join the waitlist before sending your brief.",
+        "Please agree to join the waitlist before sending your request.",
       );
       track("lead_form_error", { reason: "validation" });
       return;
@@ -152,13 +152,12 @@ export function LeadForm({
         <span className="success-mark" aria-hidden="true">
           ✓
         </span>
-        <span className="mono">BRIEF RECEIVED / WAITLIST CONFIRMED</span>
-        <h2 id="lead-success-title">You’re on the waitlist.</h2>
+        <span className="mono">REQUEST RECEIVED / WAITLIST CONFIRMED</span>
+        <h2 id="lead-success-title">Your test request is in.</h2>
         <p>
-          We’ve received your brief. We’ll keep you posted about early access
-          and launch updates.
+          We’ll review what you’re building and get in touch about a test. You’re also on the waitlist for early-access and launch updates.
         </p>
-        <Link className="button" href="/how-it-works">
+        <Link className="button" href="/#how-it-works">
           See how testing works <Arrow />
         </Link>
       </div>
@@ -173,13 +172,12 @@ export function LeadForm({
       aria-label="Share your product and join the Playground waitlist"
     >
       <div className="form-top">
-        <span className="mono">YOUR TEST BRIEF</span>
+        <span className="mono">YOUR TEST REQUEST</span>
         <span className="mono">EARLY ACCESS</span>
       </div>
       <div className="form-fields">
         <p className="lead-waitlist-intro">
-          Sending a brief also joins the waitlist. We’ll review what you’re
-          building and share early-access and launch updates.
+          We’ll review your request and get in touch. You’ll also join the waitlist for early-access and launch updates.
         </p>
         <div className="form-two">
           <label>
@@ -271,8 +269,8 @@ export function LeadForm({
         {!intakeAvailable && (
           <div className="intake-note">
             <p>
-              Brief submissions and waitlist signups are temporarily
-              unavailable. You can still save a copy of your brief.
+              Request submissions and waitlist signups are temporarily
+              unavailable. You can still save a copy of your request.
             </p>
           </div>
         )}
@@ -284,7 +282,7 @@ export function LeadForm({
           type="submit"
           disabled={status === "loading"}
         >
-          {status === "loading" ? "Sending your brief…" : "Send your brief"}
+          {status === "loading" ? "Sending your request…" : "Request a test"}
           {status === "loading" ? (
             <span className="loading-indicator" aria-hidden="true" />
           ) : (
@@ -292,16 +290,15 @@ export function LeadForm({
           )}
         </button>
         <p className="form-privacy">
-          We use your brief to review your request and send the updates you’ve
-          agreed to receive. <Link href="/privacy">Privacy notice</Link>
+          We use these details to review your request and send the updates you’ve agreed to receive. <Link href="/privacy">Privacy notice</Link>
         </p>
         <button
           className="save-brief"
           type="button"
-          onClick={saveBrief}
+          onClick={saveRequest}
           disabled={status === "loading"}
         >
-          Save a copy of your brief <span aria-hidden="true">↓</span>
+          Save a copy of your request <span aria-hidden="true">↓</span>
         </button>
       </div>
     </form>

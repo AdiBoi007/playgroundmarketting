@@ -3,8 +3,6 @@ import { siteOrigin } from "@/lib/site";
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     "",
-    "/how-it-works",
-    "/startups",
     "/about",
     "/waitlist",
     "/become-a-tester",

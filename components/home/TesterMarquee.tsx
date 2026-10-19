@@ -2,19 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "./TesterMarquee.module.css";
 
-const companies = [
-  { name: "IBM", file: "ibm.svg", width: 103, height: 42 },
-  { name: "Canva", file: "canva.svg", width: 112, height: 36 },
-  { name: "Mastercard", file: "mastercard.svg", width: 77, height: 60 },
-  { name: "Zip", file: "zip.svg", width: 90, height: 40 },
-  { name: "Airtasker", file: "airtasker.svg", width: 142, height: 39 },
-  { name: "CommBank", file: "commbank.svg", width: 45, height: 45 },
-  { name: "Amazon", file: "amazon.svg", width: 119, height: 40 },
-  { name: "McDonald’s", file: "mcdonalds.svg", width: 57, height: 50 },
-  { name: "Deloitte", file: "deloitte.svg", width: 128, height: 40 },
-  { name: "EY", file: "ey.svg", width: 124, height: 60 },
-  { name: "PwC", file: "pwc.svg", width: 95, height: 46 },
-];
+import { pilotCompanies as companies } from "@/lib/pilot-companies";
+
 
 export function TesterMarquee() {
   return (
@@ -23,7 +12,7 @@ export function TesterMarquee() {
         <div className={styles.intro}>
           <span className={styles.eyebrow}>
             <span className={styles.dot} aria-hidden="true" />
-            THE PILOT USER COMMUNITY
+            THE PILOT TESTER COMMUNITY
           </span>
           <h2 id="tester-companies-title">Real people from<br /><span>the world’s leading companies.</span></h2>
         </div>
@@ -48,7 +37,7 @@ export function TesterMarquee() {
             <ul
               key={String(duplicate)}
               className={styles.logos}
-              aria-label={duplicate ? undefined : "Companies our pilot users come from"}
+              aria-label={duplicate ? undefined : "Companies our pilot customers come from"}
               aria-hidden={duplicate || undefined}
             >
               {companies.map((company) => (

@@ -15,7 +15,7 @@ test("the product journey rotates in view, loops without page jumps, and pauses 
   await page.mouse.move(0, 0);
   await expect(canvas).toHaveAttribute("data-rotating", "true");
   const initialHeight = (await canvas.boundingBox())!.height;
-  for (const name of ["Prototype", "MVP", "Launch", "New features", "Idea"]) {
+  for (const name of ["Prototype", "First version", "Launch", "New features", "Idea"]) {
     await page.clock.fastForward(8_000);
     await expect(journey.getByRole("tab", { name, exact: true })).toHaveAttribute("aria-selected", "true");
     expect(Math.abs((await canvas.boundingBox())!.height - initialHeight)).toBeLessThan(1);
@@ -66,9 +66,9 @@ test("the product journey supports keyboard navigation and carries the chosen qu
   const idea = journey.getByRole("tab", { name: "Idea", exact: true });
   await expect(idea).toHaveAttribute("aria-selected", "true");
   await expect(journey.getByRole("tabpanel")).toHaveCount(1);
-  await expect(journey.getByRole("link", { name: "Find pilot users for my idea" })).toHaveAttribute("href", "/waitlist");
+  await expect(journey.getByRole("link", { name: "Find pilot customers" })).toHaveAttribute("href", "/waitlist");
   await idea.focus();
-  for (const name of ["Prototype", "MVP", "Launch", "New features", "Idea"]) {
+  for (const name of ["Prototype", "First version", "Launch", "New features", "Idea"]) {
     await page.keyboard.press("ArrowRight");
     const selected = journey.getByRole("tab", { name, exact: true });
     await expect(selected).toBeFocused();
@@ -86,9 +86,9 @@ test("the product journey supports keyboard navigation and carries the chosen qu
   await page.keyboard.press("Home");
   await expect(idea).toBeFocused();
   await journey.getByRole("tab", { name: "Prototype", exact: true }).click();
-  await journey.getByRole("link", { name: "Test my prototype with pilot users" }).click();
+  await journey.getByRole("link", { name: "Find pilot customers" }).click();
   await expect(page).toHaveURL(/\/run-a-test\?focus=/);
-  await expect(page.getByLabel("What do you want to find out?")).toHaveValue("I want to find out: Can my pilot users complete the key task in my prototype?");
+  await expect(page.getByLabel("What do you want to find out?")).toHaveValue("I want to find out: Can my pilot customers complete the key task in my prototype?");
 });
 
 for (const width of [375, 768, 1440]) {
@@ -113,7 +113,7 @@ for (const width of [375, 768, 1440]) {
       await page.addStyleTag({ content: "html{font-size:200%}" });
       expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
       await expect(journey.getByRole("tab", { name: "New features", exact: true })).toBeVisible();
-      await expect(journey.getByRole("link", { name: "Find users to test my next feature" })).toBeVisible();
+      await expect(journey.getByRole("link", { name: "Find pilot customers" })).toBeVisible();
     }
   });
 }

@@ -124,9 +124,9 @@ export function SignupForm({ available, kind = "waitlist" }: { available: boolea
         <span className="mono">{isTester ? "APPLICATION RECEIVED" : "SIGNUP CONFIRMED"}</span>
         <h2>{isTester ? "Your tester application is in." : "You’re on the waitlist."}</h2>
         <p>
-          {isTester ? "We’ll contact you when a paid test fits your experience, with the task, session length and payment details. You decide whether to take part." : "We’ll contact you about early access to pilot users and product testing using the details you shared."}
+          {isTester ? "We’ll contact you when a paid test fits your experience, with the task, session length and payment details. You decide whether to take part." : "We’ll contact you about early access to pilot customers and product testing using the details you shared."}
         </p>
-        <Link href="/how-it-works" className="button">
+        <Link href="/#how-it-works" className="button">
           See how testing works <Arrow />
         </Link>
       </div>
@@ -154,9 +154,9 @@ export function SignupForm({ available, kind = "waitlist" }: { available: boolea
       </div>
       <div className="waitlist-form-body">
         <noscript><p className="waitlist-unavailable">Enable JavaScript to complete this signup.</p></noscript>
-        <h2>{isTester ? "Make your opinion count." : "Get early access."}</h2>
+        <h2>{isTester ? "Apply for paid tests." : "Get early access."}</h2>
         <p className="waitlist-form-intro">
-          {isTester ? "Apply for paid tests that match your experience. Start with a few details below." : "Choose how we reach you. We’ll follow up about pilot users and testing for your idea or product."}
+          {isTester ? "Share your experience and how to reach you." : "Leave one contact method. We’ll get in touch."}
         </p>
         {!available && (
           <p className="waitlist-unavailable">

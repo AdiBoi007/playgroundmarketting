@@ -158,8 +158,8 @@ for (const includeContact of [false, true]) {
       await page.getByLabel("LinkedIn or social profile (optional)", { exact: true }).fill(socialProfile);
     }
     await page.getByRole("form").getByRole("checkbox").check();
-    await page.getByRole("button", { name: "Send your brief", exact: true }).click();
-    await expect(page.getByRole("status")).toContainText("BRIEF RECEIVED / WAITLIST CONFIRMED");
+    await page.getByRole("button", { name: "Request a test", exact: true }).click();
+    await expect(page.getByRole("status")).toContainText("REQUEST RECEIVED / WAITLIST CONFIRMED");
     expect(body).toContain(`Phone: ${includeContact ? phone : "Not provided"}`);
   });
 }

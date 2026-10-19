@@ -2,7 +2,6 @@ import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 const routes = [
   "/",
-  "/how-it-works",
   "/startups",
   "/about",
   "/run-a-test",
@@ -13,11 +12,11 @@ const routes = [
 ];
 const widths = [375, 390, 430, 768, 1024, 1440, 1728];
 const assumptionNotes = [
-  "They’ll know how to get started.",
-  "They’ll trust it to send.",
-  "They’ll pay $49.",
-  "They’ll find that feature.",
-  "They’ll know what to do next.",
+  "They need this.",
+  "They’ll get it.",
+  "They’ll sign up.",
+  "They’ll pay.",
+  "They’ll use it.",
   "They’ll come back.",
 ];
 for (const width of widths) {
@@ -38,7 +37,7 @@ for (const width of widths) {
     await expect(page.locator(".world-art")).toBeVisible();
     await expect(page.locator(".hero-report-card")).toHaveCount(0);
     await expect(page.locator(".home-hero").getByRole("link", { name: "Find my pilot users" })).toHaveAttribute("href", "/waitlist");
-    await expect(page.locator(".home-hero").getByRole("link", { name: "See how it works" })).toHaveAttribute("href", "/how-it-works");
+    await expect(page.locator(".home-hero").getByRole("link", { name: "See how it works" })).toHaveAttribute("href", "/#how-it-works");
     await expect(page.getByRole("heading", { name: "Your product is full of assumptions." })).toBeVisible();
     const notes = page.locator(".home-assumptions .assumption-note");
     await expect(notes).toHaveCount(6);
@@ -46,9 +45,7 @@ for (const width of widths) {
       await expect(notes.nth(index)).toContainText(text);
       await expect(notes.nth(index)).toContainText("UNTESTED");
     }
-    await expect(page.getByRole("heading", { name: "Where do we go from here?" })).toBeVisible();
-    await expect(page.getByRole("region", { name: "What this path means" })).toContainText("Keep the idea. Fix this part.");
-    const clippedCopy = await page.locator(".assumption-note p, #crossroads button, #crossroads h3").evaluateAll((elements) =>
+    const clippedCopy = await page.locator(".assumption-note p").evaluateAll((elements) =>
       elements.filter((element) => {
         const bounds = element.getBoundingClientRect();
         return bounds.left < -2 || bounds.right > innerWidth + 2;
@@ -104,7 +101,6 @@ for (const route of routes) {
   });
 }
 for (const route of [
-  "/how-it-works",
   "/startups",
   "/about",
   "/run-a-test",
@@ -149,38 +145,13 @@ test("mobile navigation works with keyboard and escape", async ({ page }) => {
   await menu.click();
   await page
     .getByRole("navigation", { name: "Mobile navigation" })
-    .getByRole("link", { name: "How it works" })
+    .getByRole("link", { name: "Why Playground" })
     .click();
-  await expect(page).toHaveURL(/how-it-works/);
+  await expect(page).toHaveURL(/about/);
   await expect(
     page.getByRole("navigation", { name: "Mobile navigation" }),
   ).toHaveCount(0);
 });
-test("the product question picker works by keyboard and carries the question into a brief", async ({
-  page,
-}) => {
-  await page.goto("/");
-  const options = page.locator(".question-picker-options").getByRole("button");
-  await expect(options).toHaveCount(5);
-  await expect(options.first()).toHaveAttribute("aria-pressed", "true");
-  const pricing = page.getByRole("button", { name: "03 Pricing" });
-  await pricing.focus();
-  await page.keyboard.press("Enter");
-  await expect(pricing).toHaveAttribute("aria-pressed", "true");
-  await expect(options.first()).toHaveAttribute("aria-pressed", "false");
-  await expect(
-    page.getByRole("heading", { name: "Would people pay for it?" }),
-  ).toBeVisible();
-  await page.getByRole("link", { name: "Ask this about your product" }).click();
-  await expect(page).toHaveURL(/focus=Pricing/);
-  await expect(page.getByLabel("What do you want to find out?")).toHaveValue(
-    "I want to find out: Pricing",
-  );
-  await expect(page.getByRole("checkbox", {
-    name: "Add me to the Playground waitlist for early-access and launch updates.",
-  })).not.toBeChecked();
-});
-
 test("crossroads choices explain real next steps without changing the example findings", async ({ page }) => {
   await page.goto("/");
   const crossroads = page.locator("#crossroads");
@@ -237,18 +208,18 @@ test("unconfigured intake preserves the brief and never claims delivery", async 
   );
   await page.goto("/run-a-test");
   await fillBrief(page);
-  await page.getByRole("button", { name: "Send your brief" }).click();
+  await page.getByRole("button", { name: "Request a test" }).click();
   await expect(page.locator("main").getByRole("alert")).toContainText(
-    "We couldn’t confirm your brief or waitlist signup. Please try again.",
+    "We couldn’t confirm your request or waitlist signup. Please try again.",
   );
   await expect(page.getByLabel("Name")).toHaveValue("Test Founder");
-  await expect(page.getByText("BRIEF RECEIVED / WAITLIST CONFIRMED", { exact: true })).toHaveCount(
+  await expect(page.getByText("REQUEST RECEIVED / WAITLIST CONFIRMED", { exact: true })).toHaveCount(
     0,
   );
   const download = page.waitForEvent("download");
-  await page.getByRole("button", { name: "Save a copy of your brief" }).click();
+  await page.getByRole("button", { name: "Save a copy of your request" }).click();
   expect((await download).suggestedFilename()).toBe(
-    "playground-test-brief.txt",
+    "playground-test-request.txt",
   );
 });
 test("confirmed delivery stays successful even when analytics fails", async ({
@@ -264,9 +235,9 @@ test("confirmed delivery stays successful even when analytics fails", async ({
   });
   await page.goto("/run-a-test");
   await fillBrief(page);
-  await page.getByRole("button", { name: "Send your brief" }).click();
+  await page.getByRole("button", { name: "Request a test" }).click();
   await expect(
-    page.getByText("BRIEF RECEIVED / WAITLIST CONFIRMED", { exact: true }),
+    page.getByText("REQUEST RECEIVED / WAITLIST CONFIRMED", { exact: true }),
   ).toBeVisible();
   await expect(page.locator("main").getByRole("alert")).toHaveCount(0);
 });
@@ -280,20 +251,20 @@ test("changed retries get a new key; unchanged retries keep the key", async ({
   });
   await page.goto("/run-a-test");
   await fillBrief(page);
-  await page.getByRole("button", { name: "Send your brief" }).click();
+  await page.getByRole("button", { name: "Request a test" }).click();
   await expect(page.locator("main").getByRole("alert")).toContainText(
-    "We couldn’t confirm your brief or waitlist signup. Please try again.",
+    "We couldn’t confirm your request or waitlist signup. Please try again.",
   );
-  await page.getByRole("button", { name: "Send your brief" }).click();
+  await page.getByRole("button", { name: "Request a test" }).click();
   await expect(page.locator("main").getByRole("alert")).toContainText(
-    "We couldn’t confirm your brief or waitlist signup. Please try again.",
+    "We couldn’t confirm your request or waitlist signup. Please try again.",
   );
   await page
     .getByLabel("What do you want to find out?")
     .fill("An updated test question");
-  await page.getByRole("button", { name: "Send your brief" }).click();
+  await page.getByRole("button", { name: "Request a test" }).click();
   await expect(page.locator("main").getByRole("alert")).toContainText(
-    "We couldn’t confirm your brief or waitlist signup. Please try again.",
+    "We couldn’t confirm your request or waitlist signup. Please try again.",
   );
   expect(keys).toHaveLength(3);
   expect(keys[0]).toBe(keys[1]);
@@ -349,15 +320,10 @@ test("home remains readable without JavaScript", async ({
   await expect(
     page.getByRole("heading", { name: "Find your pilot users. Test before you launch." }),
   ).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Your audience. Found. Matched. Tested." })).toBeVisible();
-  await expect(page.getByText("Playground finds pilot users at every stage:", { exact: true }).locator("..").getByRole("listitem")).toHaveCount(5);
+  await expect(page.getByRole("heading", { name: "Your next customers. Let’s find them." })).toBeVisible();
+  await expect(page.getByText("Playground finds pilot customers at every stage:", { exact: true }).locator("..").getByRole("listitem")).toHaveCount(5);
   await expect(page.getByRole("heading", { name: "Your product is full of assumptions." })).toBeVisible();
   await expect(page.locator(".home-assumptions .assumption-note")).toHaveCount(6);
-  await expect(page.getByRole("heading", { name: "Where do we go from here?" })).toBeVisible();
-  await expect(page.getByRole("region", { name: "What this path means" })).toContainText("Keep the idea. Fix this part.");
-  await expect(page.locator("#crossroads").getByRole("link", { name: "Plan a test for my product" })).toHaveAttribute("href", "/run-a-test");
-  await expect(page.locator("#crossroads")).toContainText("A made-up example");
-  await expect(page.locator(".home-method-card")).toHaveCount(3);
   const testerMarquee = page.getByRole("region", { name: "Real people from the world’s leading companies." });
   await expect(testerMarquee.getByRole("img")).toHaveCount(11);
   const pauseLogos = testerMarquee.getByRole("checkbox", { name: "Pause logo animation" });
@@ -365,8 +331,6 @@ test("home remains readable without JavaScript", async ({
     await pauseLogos.check();
     await expect(pauseLogos).toBeChecked();
   }
-  await expect(page.locator(".home-stage-note")).toContainText("Paid tests underway.");
-  await expect(page.locator(".home-stage-note")).toContainText("Public launch coming next.");
   await expect(page.locator(".hero-report-card")).toHaveCount(0);
   await expect(
     page.getByRole("link", { name: "Join the waitlist" }).first(),
@@ -374,10 +338,10 @@ test("home remains readable without JavaScript", async ({
   await expect(
     page.getByRole("link", { name: "Join the waitlist" }).first(),
   ).toHaveAttribute("href", "/waitlist");
-  const question = page.locator("summary", { hasText: "Do I need a finished product?" });
+  const question = page.locator("summary", { hasText: "Can I start with just an idea?" });
   await question.click();
   await expect(question.locator("..")).toHaveAttribute("open", "");
-  await expect(question.locator("..")).toContainText("join the waitlist");
+  await expect(question.locator("..")).toContainText("Join early access");
   await context.close();
 });
 test("mobile pages and forms pass accessibility checks", async ({ page }) => {
@@ -399,7 +363,6 @@ test("mobile pages and forms pass accessibility checks", async ({ page }) => {
 
 for (const route of [
   "/",
-  "/how-it-works",
   "/startups",
   "/about",
   "/run-a-test",
@@ -416,45 +379,46 @@ for (const route of [
       await page.evaluate(() => document.documentElement.scrollWidth),
     ).toBeLessThanOrEqual(375);
     if (route === "/") {
-      for (const name of ["Launch", "Rethink it", "Make a change"]) {
-        const choice = page.locator("#crossroads").getByRole("button", { name, exact: true });
-        await choice.click();
-        await expect(choice).toHaveAttribute("aria-pressed", "true");
-        expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(375);
-        const clippedCopy = await page.locator(".assumption-note p, #crossroads button, #crossroads h3, #crossroads p").evaluateAll((elements) =>
-          elements.filter((element) => {
-            const bounds = element.getBoundingClientRect();
-            return bounds.left < -2 || bounds.right > innerWidth + 2;
-          }).map((element) => element.textContent),
-        );
-        expect(clippedCopy, `Enlarged copy on ${name} path`).toEqual([]);
-      }
+      const clippedCopy = await page.locator(".assumption-note p").evaluateAll(elements =>
+        elements.filter(element => {
+          const bounds = element.getBoundingClientRect();
+          return bounds.left < -2 || bounds.right > innerWidth + 2;
+        }).map(element => element.textContent),
+      );
+      expect(clippedCopy, "Enlarged assumptions stay within the page").toEqual([]);
     }
   });
 }
 
 test("native FAQs explain test limits and work with a keyboard", async ({ page }) => {
   await page.goto("/");
-  const buying = page.locator("summary", { hasText: "Can a test prove that people will buy?" });
+  const buying = page.locator("summary", { hasText: "Will pilot customers become paying customers?" });
   await buying.focus();
   await page.keyboard.press("Enter");
   await expect(buying.locator("..")).toHaveAttribute("open", "");
-  await expect(buying.locator("..")).toContainText("cannot promise sales");
+  await expect(buying.locator("..")).toContainText("Sales aren’t guaranteed");
   await page.keyboard.press("Space");
   await expect(buying.locator("..")).not.toHaveAttribute("open", "");
-  const access = page.locator("summary", { hasText: "Can I use Playground now?" });
+  const access = page.locator("summary", { hasText: "Can I request a test now?" });
   await access.click();
-  await expect(access.locator("..")).toContainText("does not book a test");
+  await expect(access.locator("..")).toContainText("before booking a test");
 });
 
-test("the removed sample report redirects and is absent from navigation and the sitemap", async ({ page, request }) => {
-  const response = await request.get("/sample-report", { maxRedirects: 0 });
-  expect(response.status()).toBe(308);
-  expect(response.headers().location).toBe("/how-it-works");
+test("removed pages redirect to the homepage process and are absent from navigation and the sitemap", async ({ page, request }) => {
   await page.goto("/");
-  await expect(page.locator('a[href*="sample-report"]')).toHaveCount(0);
+  for (const path of ["/sample-report", "/how-it-works"]) {
+    const response = await request.get(path, { maxRedirects: 0 });
+    expect(response.status()).toBe(308);
+    expect(response.headers().location).toBe("/#how-it-works");
+    await expect(page.locator(`a[href="${path}"]`)).toHaveCount(0);
+  }
   const sitemap = await request.get("/sitemap.xml");
-  expect(await sitemap.text()).not.toContain("sample-report");
+  const xml = await sitemap.text();
+  expect(xml).not.toContain("sample-report");
+  expect(xml).not.toContain("how-it-works");
+  await page.goto("/how-it-works");
+  await expect(page).toHaveURL(/\/#how-it-works$/);
+  await expect(page.locator("#how-it-works")).toBeVisible();
 });
 
 test("reduced motion keeps the full story visible and disables scroll progress", async ({ page }) => {
@@ -468,6 +432,5 @@ test("reduced motion keeps the full story visible and disables scroll progress",
       return style.opacity !== "1" || style.visibility === "hidden";
     }).length,
   )).toBe(0);
-  await expect(page.getByRole("heading", { name: "Find your people. Test your next move." })).toBeVisible();
-  await expect(page.getByRole("region", { name: "What this path means" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Before your next build, find your next customers." })).toBeVisible();
 });

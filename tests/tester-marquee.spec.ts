@@ -9,7 +9,7 @@ for (const width of [375, 1440, 2560]) {
     await page.goto("/");
     const marquee = page.getByRole("region", { name: "Real people from the world’s leading companies." });
     await marquee.scrollIntoViewIfNeeded();
-    const list = marquee.getByRole("list", { name: "Companies our pilot users come from" });
+    const list = marquee.getByRole("list", { name: "Companies our pilot customers come from" });
     const track = list.locator("..");
     const viewport = track.locator("..");
     await expect(marquee.getByRole("img")).toHaveCount(11);
@@ -45,7 +45,7 @@ test("reduced motion shows every company in a static mobile grid", async ({ page
   await page.setViewportSize({ width: 375, height: 1000 });
   await page.goto("/");
   const marquee = page.getByRole("region", { name: "Real people from the world’s leading companies." });
-  const list = marquee.getByRole("list", { name: "Companies our pilot users come from" });
+  const list = marquee.getByRole("list", { name: "Companies our pilot customers come from" });
   await marquee.scrollIntoViewIfNeeded();
   await expect(list.locator("..")).toHaveCSS("animation-name", "none");
   await expect(marquee.getByRole("checkbox", { name: "Pause logo animation" })).toBeHidden();

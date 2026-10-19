@@ -2,68 +2,54 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState, useSyncExternalStore, type CSSProperties, type KeyboardEvent } from "react";
-import { Arrow, Avatar, Eyebrow } from "@/components/ui/Primitives";
+import { Arrow } from "@/components/ui/Primitives";
 import styles from "./ProductJourney.module.css";
 
 const stages = [
   {
     id: "idea", name: "Idea", label: "BEFORE YOU BUILD",
-    title: "Find the people with the problem.",
-    copy: "You don’t need a finished product to start learning. Put your idea in front of people who live with the problem you want to solve.",
-    audience: "People who face the problem you’re exploring.",
-    criteria: ["The right problem", "The right audience"],
-    test: "Explore their current workarounds, what frustrates them, and how they respond to your idea.",
-    decision: "Whether the problem matters, who to build for, and which assumption to test next.",
+    title: "Is the problem worth solving?",
+    audience: "People who have the problem.",
+    test: "How they solve it today and what they think of your idea.",
+    decision: "Who needs it and whether it’s worth building.",
     question: "Do people need this idea, and who should I build it for?",
-    href: "/waitlist", cta: "Find pilot users for my idea",
+    href: "/waitlist",
     paths: ["M12 3a6 6 0 0 0-3 11.2V17h6v-2.8A6 6 0 0 0 12 3Z", "M9 20h6M12 7v4"],
   },
   {
     id: "prototype", name: "Prototype", label: "BEFORE YOU BUILD IT OUT",
-    title: "Put the rough version in real hands.",
-    copy: "A clickable prototype is enough to uncover a confusing flow. We find people who fit your audience and watch them try the task you designed.",
-    audience: "People who would use the workflow you’re designing.",
-    criteria: ["Relevant tasks", "Real workflows"],
-    test: "Ask people to complete a key task without a walkthrough. See what they understand and where they get stuck.",
-    decision: "What to change in the flow before you spend more time building it.",
-    question: "Can my pilot users complete the key task in my prototype?",
-    cta: "Test my prototype with pilot users",
+    title: "Can people use it?",
+    audience: "People who would use your product.",
+    test: "Can they complete the main task without help?",
+    decision: "What to make clearer before you build.",
+    question: "Can my pilot customers complete the key task in my prototype?",
     paths: ["M3 4h18v16H3ZM3 9h18M9 9v11", "m13 12 5 3-5 2Z"],
   },
   {
-    id: "mvp", name: "MVP", label: "BEFORE YOU GO ALL IN",
-    title: "Find out if the first version delivers.",
-    copy: "Your core product works. Now see whether it works for the people it’s meant for, from their first signup to the moment they get value.",
-    audience: "Early users who fit your intended customer profile.",
-    criteria: ["Customer fit", "Core use case"],
-    test: "Test onboarding and the core workflow. Ask what feels useful, what’s missing, and what gets in the way.",
-    decision: "Which friction to fix and what to validate before investing in the next version.",
-    question: "Can my pilot users get value from the core workflow in my MVP?",
-    cta: "Find pilot users for my MVP",
+    id: "mvp", name: "First version", label: "BEFORE YOU GO ALL IN",
+    title: "Does the first version help?",
+    audience: "People who need what your product offers.",
+    test: "Signup, the main task, and what gets in the way.",
+    decision: "What’s useful, what’s missing, and what to fix.",
+    question: "Can my pilot customers get what they need from the first version?",
     paths: ["M4 3h16v18H4ZM4 8h16", "m8 14 3 3 5-6"],
   },
   {
     id: "launch", name: "Launch", label: "BEFORE THE BIG REVEAL",
-    title: "Make the first impression count.",
-    copy: "Get your launch experience in front of fresh eyes. We test with people who match your audience so you can see what lands before you go wider.",
-    audience: "Prospective users in the market you’re launching into.",
-    criteria: ["Your launch market", "Fresh perspective"],
-    test: "Check the offer, the first impression, and the journey from landing page to first useful action.",
-    decision: "What needs work before launch and which questions still need a bigger test.",
-    question: "Do my pilot users understand the offer and reach the first useful action?",
-    cta: "Test with pilot users before launch",
+    title: "Ready for your first customers?",
+    audience: "Potential customers in your launch market.",
+    test: "Do they understand the offer and know how to start?",
+    decision: "What to improve before launch.",
+    question: "Do my pilot customers understand the offer and reach the first useful action?",
     paths: ["M14 4c3-1 6-1 6-1s0 3-1 6l-7 7-5-5 7-7Z", "m7 11-4 1 4 3M12 16l-1 5-2-4M5 18l-2 3 3-2M15 8h.01"],
   },
   {
     id: "features", name: "New features", label: "BEFORE THE NEXT RELEASE",
-    title: "Test the next feature before you ship it.",
-    copy: "Every addition brings a new assumption. Find relevant users, test the change in context, and learn whether it actually helps them do the job.",
-    audience: "People who need the task your new feature is meant to improve.",
-    criteria: ["Feature relevance", "Everyday context"],
-    test: "Let people discover and try the feature in a realistic task. See whether it makes the workflow clearer or harder.",
-    decision: "What to ship, what to simplify, and what to test again after the change.",
-    question: "Does my new feature improve the workflow for the people who need it?",
-    cta: "Find users to test my next feature",
+    title: "Does the new feature help?",
+    audience: "Customers who would use the feature.",
+    test: "Can they find it and use it to finish a task?",
+    decision: "What to keep, simplify, or change.",
+    question: "Does my new feature make the task easier for my pilot customers?",
     paths: ["M4 4h16v16H4ZM8 12h8M12 8v8"],
   },
 ] as const;
@@ -126,16 +112,16 @@ export function ProductJourney() {
     <section ref={section} id="product-journey" className={styles.section} aria-labelledby="journey-title">
       <div className="container">
         <div className={styles.heading}>
-          <div><Eyebrow>YOUR PRODUCT. EVERY STAGE.</Eyebrow><h2 id="journey-title">Wherever you are,<br /><span className="blue-text">your pilot users are out there.</span></h2></div>
-          <p>We find them. You learn from them. From the first idea to the next feature, test your assumptions with people your product is built for.</p>
+          <h2 id="journey-title">Pilot customers.<br /><span className="blue-text">At every stage.</span></h2>
+          <p>Pick your stage. We’ll find the right people.</p>
         </div>
         <div className={styles.canvas} data-rotating={rotating}
           onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
           onFocusCapture={event => { if (!control.current?.contains(event.target)) setRotation("paused"); }}>
           <div className={styles.diagramLabel}>
-            <span className="mono">THE PRODUCT JOURNEY</span>
+            <span className="mono">YOUR STAGE</span>
             <div className={styles.rotationControls}>
-              <span>Choose a stage or watch it rotate</span>
+              <span>Pick a stage</span>
               <button ref={control} type="button" className={styles.rotationButton} aria-label={playing ? "Pause stage rotation" : "Play stage rotation"}
                 onClick={() => setRotation(playing ? "paused" : "playing")}>
                 <span aria-hidden="true">{playing ? "Ⅱ" : "▶"}</span>{playing ? "Pause" : "Play"}
@@ -148,35 +134,29 @@ export function ProductJourney() {
                 id={`journey-tab-${stage.id}`} aria-controls={`journey-panel-${stage.id}`} aria-selected={active === index}
                 tabIndex={active === index ? 0 : -1} onClick={() => select(index)} onKeyDown={event => navigate(event, index)} className={styles.stage}>
                 <span className={styles.icon} aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">{stage.paths.map(path => <path d={path} key={path} />)}</svg></span>
-                <span className={styles.stepNumber} aria-hidden="true">0{index + 1}</span>
                 <span className={styles.stageName}>{stage.name}</span>
               </button>
             ))}
           </div>
-          <p className={styles.repeat}><span aria-hidden="true">↻</span> Find people. Test. Learn. Improve. Repeat.</p>
           <div className={styles.panels} aria-live="off">
           {stages.map((stage, index) => (
             <div key={stage.id} className={styles.panel} id={`journey-panel-${stage.id}`} role="tabpanel" aria-labelledby={`journey-tab-${stage.id}`} tabIndex={active === index ? 0 : -1} hidden={active !== index} inert={active !== index}>
               <div className={styles.panelCopy}>
                 <span className={styles.label}>{stage.label}</span>
                 <h3>{stage.title}</h3>
-                <p>{stage.copy}</p>
               </div>
               <div className={styles.audience}>
-                <div className={styles.people} aria-hidden="true">{[0, 1, 2].map(person => <Avatar index={person} key={person} />)}<span>↗</span></div>
                 <span className={styles.label}>WHO WE FIND</span>
                 <p>{stage.audience}</p>
-                <ul>{stage.criteria.map(criterion => <li key={criterion}>{criterion}</li>)}</ul>
               </div>
               <div className={styles.test}><span className={styles.label}>WHAT WE TEST</span><p>{stage.test}</p></div>
               <div className={styles.decision}><span className={styles.label}>WHAT YOU LEARN</span><p>{stage.decision}</p></div>
-              <div className={styles.action}><Link className="button" href={"href" in stage ? stage.href : `/run-a-test?focus=${encodeURIComponent(stage.question)}`}>{stage.cta} <Arrow /></Link><span>{index === 0 ? "Start with an idea. No product link needed." : "Audience, test, price and timing agreed before we start."}</span></div>
+              <div className={styles.action}><Link className="button" href={"href" in stage ? stage.href : `/run-a-test?focus=${encodeURIComponent(stage.question)}`}>Find pilot customers <Arrow /></Link><span>{index === 0 ? "Start with an idea. No product link needed." : "Price and timing agreed upfront."}</span></div>
             </div>
           ))}
           </div>
-          <noscript><div className={styles.fallback}><p>Playground finds pilot users at every stage:</p><ul>{stages.map(stage => <li key={stage.id}><strong>{stage.name}:</strong> {stage.test}</li>)}</ul></div></noscript>
+          <noscript><div className={styles.fallback}><p>Playground finds pilot customers at every stage:</p><ul>{stages.map(stage => <li key={stage.id}><strong>{stage.name}:</strong> {stage.test}</li>)}</ul></div></noscript>
         </div>
-        <p className={styles.footnote}>First test the assumption. Then make your next move.</p>
       </div>
     </section>
   );
